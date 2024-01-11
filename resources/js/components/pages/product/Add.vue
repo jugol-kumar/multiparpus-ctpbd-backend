@@ -400,7 +400,7 @@
 
 <script>
 
-import InputTag from 'vue-input-tag'
+// import InputTag from 'vue-input-tag'
 import TreeCategory from '../../TreeCategory.vue'
 import Editor from "../../Editor.vue"
 import Uploader from "vue-media-upload";
@@ -409,7 +409,7 @@ import Uploader from "vue-media-upload";
 export default {
     name: "Index",
     components: {
-        InputTag,
+        // InputTag,
         Editor,
         TreeCategory,
         Uploader

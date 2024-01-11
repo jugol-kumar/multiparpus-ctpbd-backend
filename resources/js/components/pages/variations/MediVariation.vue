@@ -72,12 +72,12 @@
 </template>
 
 <script>
-import InputTag from 'vue-input-tag'
+// import InputTag from 'vue-input-tag'
 
 export default {
-    components: {
-        InputTag
-    },
+    // components: {
+    //     InputTag
+    // },
 
     data(){
         return {
