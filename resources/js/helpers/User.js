@@ -3,24 +3,22 @@ import Appstores from "./Appstores";
 
 class User{
     responseAfterLogin(res){
-        const accessToken = res.data.access_token;
-        const userName = res.data.userName;
-
-        if (Token.isValidToken(accessToken)){
-            Appstores.storeAuth(accessToken, res?.data?.info)
-        }
+        Appstores.storeAuthUser(res)
     }
 
     hasToken(){
         const storageToken = localStorage.getItem('_token');
         if (storageToken){
-            return Token.isValidToken(storageToken) ? true : false
+            return Token.isValidToken(storageToken)
         }
         false
     }
 
+    userInfo(){
+        return JSON.parse(JSON.parse(localStorage.getItem('_user')));
+    }
     loggedIn(){
-        return this.hasToken();
+        return  JSON.parse(localStorage.getItem('_user')) ? true : false;
     }
 
     logout(){

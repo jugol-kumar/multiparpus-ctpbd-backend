@@ -156,7 +156,7 @@ export default {
     },
     methods: {
         allCustomer() {
-            axios.get('api/customer')
+            this.$axios.get('api/customer')
                 .then(res => {
                     this.employes = res.data
                     // Toast.fire({

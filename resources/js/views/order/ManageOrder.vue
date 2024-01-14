@@ -1,0 +1,301 @@
+<template>
+    <div>
+        <div class="card card-custom">
+            <div class="card-header flex-wrap py-5">
+                <div class="card-title">
+                    <h3 class="card-label">Order Details
+                        <span class="d-block text-muted pt-2 font-size-sm">all employees details is here</span>
+                    </h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <!--begin: Datatable-->
+                <table class="table table-separate table-head-custom table-checkable" id="">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Total</th>
+                            <th>Order Status</th>
+                            <th>Payment Status</th>
+                            <th>Payment Method</th>
+                            <th>Order Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(order, i) in orders?.orders.data" :key="`single-order-${i}`">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ order.customer?.full_name }}
+                                <!-- <div>
+                                    <img src="" alt=""/>
+                                    <div>
+                                        <h5 class="fw-bold"></h5>
+                                        <p>{{  order?.customer?.email }}</p>
+                                        <p>{{  order?.customer?.phone }}</p>
+                                    </div>
+                                </div> -->
+                            </td>
+                            <td>{{ order.grand_total }}</td>
+                            <td>order status</td>
+                            <td>payment status</td>
+
+                            <td> method </td>
+                            <td>{{ order.order_date }}</td>
+                            <td>
+                                <a href="#" @click="showSingleOrder(order)">
+                                    <span class="svg-icon svg-icon-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path
+                                                    d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
+                                                    fill="#000000" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </a>
+
+                                <!--                            {name:'ShowOrderDetails', params:{id:order.id} }-->
+                                <a :href="`http://localhost:5173/order-invoice/${order?.id}`" target="_blank"
+                                    class="btn btn-sm btn-clean btn-icon" title="Edit details">
+                                    <span class="svg-icon svg-icon-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path
+                                                    d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
+                                                    fill="#000000" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </a>
+
+                                <a href="javascript:;" @click="deleteCustomer(emp.id)" class="btn btn-sm btn-clean btn-icon"
+                                    title="Delete">
+                                    <span class="svg-icon svg-icon-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path
+                                                    d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z"
+                                                    fill="#000000" fill-rule="nonzero" />
+                                                <path
+                                                    d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--end: Datatable-->
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="card invoice-preview-card shadow-none py-5">
+                        <div class="card-body invoice-padding pb-0 mb-5">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div style="text-align:left; max-width: 35%">
+                                    <div>
+                                        <div class="logo-wrapper mb-5">
+                                            <img src="@/assets/images/logos/logo.png" alt="" height="40">
+                                        </div>
+                                        <h3 class="mt-1 fw-semibold fs-3 mb-3 text-capitalize">Invoice To: </h3>
+                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.customer?.full_name">Name:
+                                            <strong>{{
+                                                orderDetails?.customer?.full_name }}</strong></p>
+                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.address?.phone">Phone: {{
+                                            orderDetails?.address?.phone }}</p>
+                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.address?.email">Email: {{
+                                            orderDetails?.address?.email }}</p>
+                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.address?.address">Address: {{
+                                            orderDetails?.address?.address }}</p>
+                                    </div>
+                                </div>
+                                <div style="text-align: right">
+                                    <div class="mt-md-0 mt-2">
+                                        <h4 class="invoice-title">
+                                            Invoice
+                                            <span class="invoice-number">#5433</span>
+                                        </h4>
+                                        <div class="invoice-date-wrapper">
+                                            <p class="invoice-date-title">Order Date: {{ orderDetails?.order_date }}</p>
+                                        </div>
+                                        <div class="invoice-date-wrapper">
+                                            <p class="invoice-date-title text-capitalize">Order Status: <span
+                                                    class="badge bg-info ms-1">Shipped</span></p>
+                                        </div>
+                                        <div class="invoice-date-wrapper">
+                                            <p class="invoice-date-title text-capitalize">Payment Status: <span
+                                                    class="badge bg-info ms-1">Pending</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="invoice-spacing" />
+
+                        <!-- Invoice Description starts -->
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="py-1" width="40%">Product Name</th>
+                                        <th class="py-1">Price</th>
+                                        <th class="py-1">size & Qty</th>
+                                        <th class="py-1">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in  orderDetails?.orderdetails"
+                                        :key="`single-details-item-${index}`">
+                                        <td class="py-1">
+                                            <a href="#" class="text-info text-capitalize">
+                                                {{ item?.product?.title }}-
+                                                {{ item?.stoke?.varient?.replace(/\//g, '-').slice(0, -1) }}
+                                            </a>
+                                        </td>
+                                        <td class="py-1">
+                                            <span class="fw-bold">{{ item?.stoke?.price }} $</span>
+                                        </td>
+                                        <td class="py-1">
+                                            <span class="fw-bold">
+                                                {{ item?.quantity }}
+                                            </span>
+                                        </td>
+                                        <td class="py-1">
+                                            <span class="fw-bold">
+                                                {{ item?.stoke?.price * item?.quantity }} $
+                                            </span> <!-- {{ $showPrice(item.product.price * item.quantity) }} -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <hr>
+
+                        <div class="card-body invoice-padding pb-0">
+                            <div class="row invoice-sales-total-wrapper">
+                                <div class="col-md-8 order-md-1  mt-md-0 mt-3">
+
+                                </div>
+                                <div class="col-md-4 d-flex justify-content-end order-md-2">
+                                    <div class="invoice-total-wrapper w-100">
+                                        <div class="invoice-total-item d-flex justify-content-between">
+                                            <p class="invoice-total-title">Subtotal:</p>
+                                            <p class="invoice-total-amount">{{ orderDetails?.sub_total }} $</p>
+                                        </div>
+                                        <!-- <div class="invoice-total-item d-flex justify-content-between"
+                                            v-if="orderDetails?.coupon_discount">
+                                            <p class="invoice-total-title">Coupon Discount:</p>
+                                            <p class="invoice-total-amount"> - {{ $showPrice(orderDetails?.coupon_discount) }}</p>
+                                        </div> -->
+                                        <div class="invoice-total-item d-flex justify-content-between">
+                                            <p class="invoice-total-title">Delivery Charge:</p>
+                                            <p class="invoice-total-amount"> + {{
+                                                orderDetails?.address?.order_area?.delivery_charge }} $</p>
+                                        </div>
+
+
+                                        <hr class="my-50" />
+                                        <div class="invoice-total-item d-flex justify-content-between">
+                                            <p class="invoice-total-title text-black fw-bolder">Grand Total:</p>
+                                            <p class="invoice-total-amount text-black fw-bolder">{{
+                                                orderDetails?.grand_total }}
+                                                $</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Invoice Description ends -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "MangeOrder",
+    data() {
+        return {
+            orders: {},
+            orderDetails: {},
+            user: User.userInfo()
+        }
+    },
+    methods: {
+        allOrder() {
+            this.$axios.get('/api/admin/orders', {
+                headers: {
+                    'Authorization': `Bearer ${this.user?.token}`
+                }
+            })
+                .then(res => {
+                    this.orders = res.data;
+                })
+                .catch(err => {
+                    err.response.data.errors;
+                    Toast.fire({
+                        icon: 'warning',
+                        title: err.response.statusText
+                    });
+                });
+        },
+
+        showSingleOrder(info) {
+            $('#exampleModal').modal('show');
+            this.orderDetails = info;
+        },
+        isLogined() {
+            if (!User.loggedIn()) {
+                this.$router.push({ name: "Login" })
+            }
+        }
+    },
+    computed: {
+        totalQuantity() {
+            let sum = 0;
+            for (let i = 0; i < this.orders.length; i++) {
+                sum += this.orders[i].quantity
+            }
+            return sum;
+        },
+        grandTotalAmount() {
+            let sum = 0;
+            for (let i = 0; i < this.orders.length; i++) {
+                sum += this.orders[i].pay_bill
+            }
+            return sum;
+        }
+    },
+    created() {
+        this.isLogined();
+        this.allOrder();
+    }
+}
+</script>
+
+<style scoped></style>

@@ -2,7 +2,7 @@
 
 Route::get('/', function (){
     return view('home');
-});
+})->middleware("auth");
 Route::any('{slug}', function(){
     return view('welcome');
 });

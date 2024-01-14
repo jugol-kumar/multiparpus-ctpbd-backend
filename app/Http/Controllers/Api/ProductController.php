@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\ProductStock;
 use App\Models\ProductVariant;
 use App\Models\ProductVariantPrice;
 use App\Models\User;
@@ -435,5 +436,17 @@ class ProductController extends Controller
                 return $product;
             });
     }
+
+    public function stokeProducts()
+    {
+        $stokes = ProductStock::query()->with(['product.category'])->paginate(20);
+        return response()->json($stokes, 200);
+    }
+
+
+
+
+
+
 
 }

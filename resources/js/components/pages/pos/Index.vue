@@ -344,7 +344,7 @@ export default {
     },
     methods: {
         allCustomer() {
-            axios.get('api/customer')
+            this.$axios.get('api/customer')
             .then(res => {
                 this.employes = res.data
             })
@@ -357,7 +357,7 @@ export default {
             })
         },
         allProducts(){
-            axios.get('api/product')
+            this.$axios.get('api/product')
             .then(res => {
                 this.products = res.data
             })
@@ -371,7 +371,7 @@ export default {
 
         },
         allCategories(){
-            axios.get('api/category')
+            this.$axios.get('api/category')
             .then(res => {
                 this.categories = res.data
             })
@@ -384,7 +384,7 @@ export default {
             })
         },
         productByCategory(id){
-            axios.get('api/product-by-category-id/'+id)
+            this.$axios.get('api/product-by-category-id/'+id)
             .then(res => {
                 this.categoryProducts = res.data
             })
@@ -398,7 +398,7 @@ export default {
         },
 
         addToPos(id){
-            axios.post('api/pos', {id})
+            this.$axios.post('api/pos', {id})
             .then(res => {
                 Reload.$emit('AfterAdd');
                 Toast.fire({
@@ -416,7 +416,7 @@ export default {
         },
 
         allCartProduct(){
-            axios.get('api/pos')
+            this.$axios.get('api/pos')
                 .then(res => {
                     this.CartProducts = res.data
                 })
@@ -430,7 +430,7 @@ export default {
         },
 
         showSingleProduct(id) {
-            axios.get('/api/product/' + id)
+            this.$axios.get('/api/product/' + id)
                 .then(res => {
                     $('#exampleModal').modal('show')
                     this.product = res.data;
@@ -455,7 +455,7 @@ export default {
                 showCancelButton:true,
             }).then((result) => {
                 if (result.value){
-                    axios.delete('/api/pos/delete-cart/'+ id)
+                    this.$axios.delete('/api/pos/delete-cart/'+ id)
                     .then(res => {
                         Reload.$emit('AfterAdd');
                         Toast.fire({
@@ -477,7 +477,7 @@ export default {
             })
         },
         quentityIncrement(id){
-            axios.get('/api/pos/increment-cart-product/'+ id)
+            this.$axios.get('/api/pos/increment-cart-product/'+ id)
                 .then(res => {
                     Reload.$emit('AfterAdd');
                     Toast.fire({
@@ -494,7 +494,7 @@ export default {
                 })
         },
         quentityDecrement(id){
-            axios.get('/api/pos/decrement-cart-product/'+ id)
+            this.$axios.get('/api/pos/decrement-cart-product/'+ id)
                 .then(res => {
                     console.log(res);
                     Reload.$emit('AfterAdd');
@@ -516,7 +516,7 @@ export default {
              this.order.totalDue = this.grandTotal - this.order.payBill
         },
         saveOrder(){
-            axios.post('api/order', this.order)
+            this.$axios.post('api/order', this.order)
             .then( res => {
                 Reload.$emit('AfterAdd');
                 Toast.fire({
@@ -584,9 +584,9 @@ export default {
         this.allProducts();
         this.allCartProduct();
         this.allCartProduct();
-        Reload.$on('AfterAdd', () => {
-            this.allCartProduct();
-        })
+        // Reload.$on('AfterAdd', () => {
+        //     this.allCartProduct();
+        // })
     }
 }
 </script>

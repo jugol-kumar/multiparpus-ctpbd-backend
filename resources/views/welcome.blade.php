@@ -138,32 +138,15 @@
 
 
 
-<script src="{{ asset('js/app.js') }}"></script>
+{{--<script src="{{ asset('js/app.js') }}"></script>--}}
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+
 {{--<script src="{{ asset('js/file-upload-with-preview.esm.js') }}"></script>--}}
 <!--end::Page Scripts-->
 <script >
     // var upload = new FileUploadWithPreview('myUniqueUploadId');
     //  new FileUploadWithPreview('productPhotos');
 </script>
-
-<script>
-    $(document).ready(function() {
-        let token = localStorage.getItem('_token');
-        if(token) {
-            $('#kt_header').css('display', 'd-flex');
-            $('#kt_subheader').css('display', '');
-            $('#isloginDnone').css('display', 'none');
-        }else{
-            console.log("now token is " +token)
-            $('#kt_header').css('display', 'none');
-            $('#kt_subheader').css('display', 'none');
-            $('#kt_aside').css('display', 'none');
-        }
-    })
-</script>
-
-
-
 </body>
 <!--end::Body-->
 </html>

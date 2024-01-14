@@ -9,24 +9,35 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-
-    //construct method
-    public function __construct(){
-//        $this->middleware('auth:api', ['except' => ['login','register']]);
-        $this->middleware('JWT', ['except' => ['login']]);
-    }
-
     //login function
     public function login(Request $request){
-        $credentials = request(['email', 'password']);
-        if (! $token = auth()->attempt($credentials)){
-            return response()->json(['error' => 'Email Or Password Invalid...'], 401);
-        }
 
-        return $this->respondWithToken($token);
+
+        $request->validate([
+            'email' =>'required',
+            'password' => 'required'
+        ]);
+
+
+
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+            if(Auth::user()->role != "admin"){
+                Auth::logout();
+                throw ValidationException::withMessages([
+                    'email' => 'These credentials do not match our records.',
+                ]);
+            }
+            $user = Auth::user();
+            $user->token =  $user->createToken('MyApp')->plainTextToken;
+            return response()->json([
+                "message" => "User Login Successfully Done...",
+                "data" =>$user
+            ]);
+        }
     }
 
 
@@ -43,32 +54,33 @@ class AuthController extends Controller
 
 
     //refresh function
-    public function refresh(Request $request){
-        return $this->respondWithToken(auth()->refresh());
-    }
+//    public function refresh(Request $request){
+//        return $this->respondWithToken(auth()->refresh());
+//    }
 
     //generate token function
-    public function respondWithToken($token){
-        Auth::guard('web')->login(auth()->user());
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-            'fullName' => auth()->user()->full_name,
-            'userName' => auth()->user()->username,
-            'email' => auth()->user()->email,
-            'userRole' => auth()->user()->role,
-            'userPhoto' => auth()->user()->photo,
-            'userId' => auth()->id(),
-            'info' => auth()->user(),
-        ]);
-    }
+//    public function respondWithToken($token){
+//        Auth::guard('web')->login(auth()->user());
+//
+//        return response()->json([
+//            'access_token' => $token,
+//            'token_type' => 'bearer',
+//            'expires_in' => auth()->factory()->getTTL() * 60,
+//            'fullName' => auth()->user()->full_name,
+//            'userName' => auth()->user()->username,
+//            'email' => auth()->user()->email,
+//            'userRole' => auth()->user()->role,
+//            'userPhoto' => auth()->user()->photo,
+//            'userId' => auth()->id(),
+//            'info' => auth()->user(),
+//        ]);
+//    }
 
 
     //payload function
-    public function payload(){
-        return auth()->payload();
-    }
+//    public function payload(){
+//        return auth()->payload();
+//    }
 
 
     //register function

@@ -23,6 +23,8 @@ class CreateOrdersTable extends Migration
             $table->float('pay_bill')->nullable();
             $table->float('pay_due')->nullable();
             $table->string('payment_method')->nullable();
+            $table->enum('payment_status', ['paid', 'pending', 'cancelled'])->default("pending");
+            $table->enum('order_status', ['pending','received','process','shipped','delivered','cancel'])->default("pending");
             $table->date('order_date')->nullable();
             $table->timestamps();
         });

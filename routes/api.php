@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\AdminOrderController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\CategoryController;
@@ -103,14 +104,17 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('user', function (Request $request){
         return $request->user();
     });
-    Route::apiResource('address', AddressController::class);
 
+    Route::apiResource('address', AddressController::class);
     Route::post("save-order", [OrderController::class, 'store']);
     Route::get("my-orders", [OrderController::class, 'index']);
-
-
     Route::get('auth-data',  [ProductController::class, 'variationsProducts']);
 
+
+
+    // admin router
+    Route::get('/admin/orders', [AdminOrderController::class, 'index']);
+    Route::get('/admin/product-stokes', [ProductController::class, 'stokeProducts']);
 
 
     Route::get('logout', [CustomerController::class, 'logoutCustomer']);

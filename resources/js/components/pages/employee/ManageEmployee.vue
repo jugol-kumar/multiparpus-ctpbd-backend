@@ -152,70 +152,70 @@
 <script>
 export default {
     name: "ManageEmployee",
-    data() {
-        return {
-            employes : {},
-        }
-    },
-    methods: {
-        allEmployee() {
-            axios.get('api/employee')
-                .then(res => {
-                    this.employes = res.data
-                    // Toast.fire({
-                    //     icon: 'success',
-                    //     title: res.statusText
-                    // })
-                })
-                .catch(err => {
-                    err.response.data.errors;
-                    Toast.fire({
-                        icon: 'warning',
-                        title: err.response.statusText
-                    })
-                })
-        },
-        deleteEmployee(id){
-            Swal.fire({
-                title: 'Are You Sure!',
-                text: 'you watnt to delete this?',
-                icon:'warning',
-                confirmButtonColor: '#ddd',
-                cancelButtonColor: 'red',
-                confirmButtonText: 'Delete',
-                showCancelButton:true,
-            }).then((result) => {
-                if (result.value){
-                    axios.delete('/api/employee/'+id)
-                    .then(res => {
-                        Toast.fire({
-                            icon: 'success',
-                            title: res.data.message
-                        })
-                        this.allEmployee();
-                    })
-                    .catch(err => {
-                        console.log(err.response.data)
-                    })
-                }
-            }).catch(() => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'dont worry. your data is safe...'
-                })
-                this.$router.push({name:'ManageEmployee'});
-            })
-        },
-        isLogined(){
-            if (!User.loggedIn()){
-                this.$router.push({name:"Login"})
-            }
-        }
-    },
-    created() {
-        this.isLogined();
-        this.allEmployee();
-    }
+    // data() {
+    //     return {
+    //         employes : {},
+    //     }
+    // },
+    // methods: {
+    //     allEmployee() {
+    //         axios.get('api/employee')
+    //             .then(res => {
+    //                 this.employes = res.data
+    //                 // Toast.fire({
+    //                 //     icon: 'success',
+    //                 //     title: res.statusText
+    //                 // })
+    //             })
+    //             .catch(err => {
+    //                 err.response.data.errors;
+    //                 Toast.fire({
+    //                     icon: 'warning',
+    //                     title: err.response.statusText
+    //                 })
+    //             })
+    //     },
+    //     deleteEmployee(id){
+    //         Swal.fire({
+    //             title: 'Are You Sure!',
+    //             text: 'you watnt to delete this?',
+    //             icon:'warning',
+    //             confirmButtonColor: '#ddd',
+    //             cancelButtonColor: 'red',
+    //             confirmButtonText: 'Delete',
+    //             showCancelButton:true,
+    //         }).then((result) => {
+    //             if (result.value){
+    //                 axios.delete('/api/employee/'+id)
+    //                 .then(res => {
+    //                     Toast.fire({
+    //                         icon: 'success',
+    //                         title: res.data.message
+    //                     })
+    //                     this.allEmployee();
+    //                 })
+    //                 .catch(err => {
+    //                     console.log(err.response.data)
+    //                 })
+    //             }
+    //         }).catch(() => {
+    //             Swal.fire({
+    //                 icon: 'success',
+    //                 title: 'dont worry. your data is safe...'
+    //             })
+    //             this.$router.push({name:'ManageEmployee'});
+    //         })
+    //     },
+    //     isLogined(){
+    //         if (!User.loggedIn()){
+    //             this.$router.push({name:"Login"})
+    //         }
+    //     }
+    // },
+    // created() {
+    //     this.isLogined();
+    //     this.allEmployee();
+    // }
 }
 </script>
 

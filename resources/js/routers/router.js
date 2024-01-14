@@ -1,75 +1,61 @@
 import { createWebHistory, createRouter } from "vue-router";
 
+import AddEmployee from "@/components/pages/employee/AddEmployee.vue";
+import ManageEmployee from "@/components/pages/employee/ManageEmployee.vue";
+import EditEmployee from '@/components/pages/employee/EditEmployee.vue';
 
-import Dashboard from "../components/pages/Dashboard";
-import Login from "../components/Auth/Auth";
-import Logout from "../components/Auth/Logout";
+import AddSupplier from '@/components/pages/supplier/Add.vue'
+import EditSupplier from '@/components/pages/supplier/Edit.vue'
+import ManageSupplier from '@/components/pages/supplier/Index.vue'
 
-import AddEmployee from "../components/pages/employee/AddEmployee";
-import ManageEmployee from "../components/pages/employee/ManageEmployee";
-import EditEmployee from '../components/pages/employee/EditEmployee';
+import AddCategory from '@/components/pages/category/Add.vue'
+import ManageCategory from '@/components/pages/category/Index.vue'
+import EditCategory from '@/components/pages/category/Edit.vue'
 
-import AddSupplier from '../components/pages/supplier/Add'
-import EditSupplier from '../components/pages/supplier/Edit'
-import ManageSupplier from '../components/pages/supplier/Index'
-
-import AddCategory from '../components/pages/category/Add'
-import ManageCategory from '../components/pages/category/Index'
-import EditCategory from '../components/pages/category/Edit'
-
-import AddBrand from '../components/pages/brand/Add'
-import ManageBrand from '../components/pages/brand/Index'
-import EditBrand from '../components/pages/brand/Edit'
-
-import AddProduct from '../components/pages/product/Add'
-import ManageProduct from '../components/pages/product/Index'
-import EditProduct from '../components/pages/product/Edit'
-
-import ProductVariations from '../components/pages/variations/Add'
-import MediVariation from '../components/pages/variations/MediVariation'
-
-import AddExpense from '../components/pages/expense/Add'
-import ManageExpense from '../components/pages/expense/Index'
-import EditExpense from '../components/pages/expense/Edit'
-
-import AddCustomer from '../components/pages/customer/Add'
-import ManageCustomer from '../components/pages/customer/Index'
-import EditCustomer from '../components/pages/customer/Edit'
-
-import AddSalary from '../components/pages/salary/Add'
-import ManageSalary from '../components/pages/salary/Index'
-import MonthSalary from '../components/pages/salary/MonthSalary'
+import AddBrand from '@/components/pages/brand/Add.vue'
+import ManageBrand from '@/components/pages/brand/Index.vue'
+import EditBrand from '@/components/pages/brand/Edit.vue'
 
 
-import TodayOrder from "../components/pages/order/TodayOrder";
-import SearchOrder from "../components/pages/order/SearchOrder";
-import ShowOrder from "../components/pages/order/ShowOrder";
+import ProductVariations from '@/components/pages/variations/Add.vue'
+import MediVariation from '@/components/pages/variations/MediVariation.vue'
 
-import StokeManage from '../components/pages/product/Stoke'
+import AddExpense from '@/components/pages/expense/Add.vue'
+import ManageExpense from '@/components/pages/expense/Index.vue'
+import EditExpense from '@/components/pages/expense/Edit.vue'
 
-import Pos from '../components/pages/pos/Index'
-import FileUpload from '../components/pages/uploadfile/UploadFile';
+import AddCustomer from '@/components/pages/customer/Add.vue'
+import ManageCustomer from '@/components/pages/customer/Index.vue'
+import EditCustomer from '@/components/pages/customer/Edit.vue'
 
-import Dropzone from '../components/pages/media/Dropzone';
+import AddSalary from '@/components/pages/salary/Add.vue'
+import ManageSalary from '@/components/pages/salary/Index.vue'
+import MonthSalary from '@/components/pages/salary/MonthSalary.vue'
 
-import Emp from '../components/pages/emp/index';
+
+import Pos from '@/components/pages/pos/Index.vue'
+import FileUpload from '@/components/pages/uploadfile/UploadFile.vue';
+
+import Dropzone from '@/components/pages/media/Dropzone.vue';
+
+import Emp from '@/components/pages/emp/index.vue';
 
 const routes =[
     //auth routes
     {
         path:'/login',
         name:'Login',
-        component:Login
+        component: ()=> import("@/views/Auth/Auth.vue")
     },
     {
         path:'/dashboard',
         name:'Dashboard',
-        component:Dashboard
+        component: ()=>import("@/views/Dashboard.vue")
     },
     {
         path:'/logout',
         name:'Logout',
-        component:Logout
+        component: ()=> import("@/views/Auth/Logout.vue")
     },
 
     //employee routes
@@ -152,21 +138,26 @@ const routes =[
         component: MediVariation
     },
 
+
+    // import AddProduct from '@/components/pages/product/Add.vue'
+    // import ManageProduct from '@/components/pages/product/Index.vue'
+    // import EditProduct from '@/components/pages/product/Edit.vue'
+
     //manage product
     {
         path:'/add-product',
         name:'AddProduct',
-        component: AddProduct
+        component: ()=> import("@/views/product/Add.vue")
     },
     {
         path:'/manage-product',
         name:'ManageProduct',
-        component: ManageProduct
+        component: ()=> import("@/views/product/Index.vue")
     },
     {
         path:'/modify-product/:id',
         name:'ModifyProduct',
-        component: AddProduct
+        component: ()=> import("@/views/product/Add.vue")
     },
 
     //expense routes
@@ -220,11 +211,12 @@ const routes =[
         component: EditCustomer
     },
 
+    
     //stoke route
     {
         path:'/stoke-manage',
         name: 'StokeManage',
-        component: StokeManage
+        component: ()=> import("@/views/product/Stoke.vue")
     },
 
     //pos route
@@ -239,17 +231,23 @@ const routes =[
     {
         path:'/today-order',
         name:'TodayOrder',
-        component: TodayOrder
+        component: import('@/views/order/TodayOrder.vue')
+    },
+
+    {
+        path:'/manage-order',
+        name:'ManageOrder',
+        component:  () => import('@/views/order/ManageOrder.vue')
     },
     {
         path:'/search-order',
         name:'SearchOrder',
-        component: SearchOrder
+        component: import('@/views/order/SearchOrder.vue')
     },
     {
         path:'/search-order/:id',
         name:'ShowOrderDetails',
-        component: ShowOrder
+        component: import('@/views/order/ShowOrder.vue')
     },
 
     //media route
@@ -278,5 +276,8 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 });
+
+
+
 
 export default router;

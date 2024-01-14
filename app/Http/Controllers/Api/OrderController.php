@@ -20,9 +20,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-
         $orders = Order::query()->with(['orderdetails', 'orderdetails.product', 'orderdetails.stoke'])->where('user_id', $user->id)->paginate(10);
-
         return response()->json([
             'message' => 'users all orders',
             'data' => $orders
@@ -103,7 +101,8 @@ class OrderController extends Controller
     }
 
     public function orderDetails($id){
-        return Order::with('orderdetails')->findOrFail($id);
+        $order = Order::with(['orderdetails', 'orderdetails.product','orderdetails.stoke', 'customer', 'address.orderArea'])->findOrFail($id);
+        return response()->json($order, 200);
     }
 
     public function update(Request $request, Order $order)

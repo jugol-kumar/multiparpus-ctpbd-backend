@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import useAxios from '@/composables/useAxios';
+import useAxios from '@/composables/useApi.js';
 
 const props = defineProps({
     modelValue:Number,
