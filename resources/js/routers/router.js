@@ -24,9 +24,6 @@ import AddExpense from '@/components/pages/expense/Add.vue'
 import ManageExpense from '@/components/pages/expense/Index.vue'
 import EditExpense from '@/components/pages/expense/Edit.vue'
 
-import AddCustomer from '@/components/pages/customer/Add.vue'
-import ManageCustomer from '@/components/pages/customer/Index.vue'
-import EditCustomer from '@/components/pages/customer/Edit.vue'
 
 import AddSalary from '@/components/pages/salary/Add.vue'
 import ManageSalary from '@/components/pages/salary/Index.vue'
@@ -137,11 +134,6 @@ const routes =[
         component: MediVariation
     },
 
-
-    // import AddProduct from '@/components/pages/product/Add.vue'
-    // import ManageProduct from '@/components/pages/product/Index.vue'
-    // import EditProduct from '@/components/pages/product/Edit.vue'
-
     //manage product
     {
         path:'/add-product',
@@ -193,21 +185,22 @@ const routes =[
         component: MonthSalary
     },
 
+
     //customer routes
     {
         path:'/add-customer',
         name:'AddCustomer',
-        component: AddCustomer
+        component: import("@/views/customer/Add.vue")
     },
     {
         path:'/manage-customer',
         name:'ManageCustomer',
-        component: ManageCustomer
+        component:import("@/views/customer/Index.vue")
     },
     {
         path:'/edit-customer/:id',
         name:'EditCustomer',
-        component: EditCustomer
+        component: import("@/views/customer/Edit.vue")
     },
 
     
@@ -248,6 +241,17 @@ const routes =[
         name:'ShowOrderDetails',
         component: import('@/views/order/ShowOrder.vue')
     },
+
+    // order areas
+    {
+        path:'/order-areas',
+        name:'OrderAreas',
+        component: import('@/views/OrderArea/Index.vue')
+    },
+
+
+
+
 
     //media route
     {

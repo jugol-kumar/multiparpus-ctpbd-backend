@@ -29,12 +29,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         if(Auth::check()) {
-
             $address = Address::with('orderArea')->findOrFail($request->addressId);
-
             $grandTotal = $address->orderArea->delivery_charge + $request->orderTotal;
-
-
 
             $order = Order::create([
                 'user_id' => $request->user()->id,

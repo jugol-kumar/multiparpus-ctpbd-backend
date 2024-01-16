@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
+use App\Models\Order;
 use App\Models\Pos;
 use App\Models\Product;
+use App\Models\ProductStock;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PosController extends Controller
@@ -15,38 +19,37 @@ class PosController extends Controller
     }
     public function store(Request $request)
     {
-        $product = Product::findOrFail($request->id);
 
-        if ($product->stock !=  0){
-            $checkProduct = Pos::where('product_id', $request->id)->first();
-            if ($checkProduct){
-                if ($product->stock <= $checkProduct->quantity ){
-                    return response()->json(['message' =>'Minimum qty is lesthen or equal '.$product->stock ], 500);
-                }else{
-                    $checkProduct->increment('quantity');
-                    $subTotal = $checkProduct->quantity * $checkProduct->price;
-                    $checkProduct->update([
-                        'sub_total' => $subTotal
-                    ]);
-                    return response()->json(['message' =>'Update To Cart'], 200);
-                }
+//        if need customer address with delivery charge.
+//        $address = Address::with('orderArea')->findOrFail($request->addressId);
+//        $grandTotal = $address->orderArea->delivery_charge + $request->orderTotal;
 
-            }else{
-                Pos::create([
-                    'product_id' => $request->id,
-                    'title' => $product->title,
-                    'quantity' => 1,
-                    'price' => $product->selling_price,
-                    'sub_total' => $product->selling_price,
-                    'photo' => $product->photo
-                ]);
-            }
 
-        }else{
-            return response()->json(['message' =>'Product Minimum quantity is not available'], 500);
+        $order = Order::create([
+            'user_id' => $request->input('customer'),
+            'payment_method' => $request->input('payby'),
+            'sub_total' => $request->input('subTotal'),
+            'grand_total' => $request->input('subTotal'),
+            'order_date' => Carbon::now(),
+        ]);
+
+        $orderDetails = [];
+        foreach ($request->input('products') as $key => $item){
+            $orderDetails[] =[
+                'order_id' => $order->id,
+                'product_id' => $item['product']['id'],
+                'product_stock_id' => $item["id"],
+                'quantity' => $item["buyQty"]
+            ];
+
+            $stock = ProductStock::where('id', $item["id"])->first();
+            $stock->qty = $stock->qty - $item["buyQty"];
+            $stock->save();
         }
+        $order->orderdetails()->createMany($orderDetails);
 
-        return response()->json(['message' =>'Product Add To Cart'], 200);
+        return response()->json(['message' =>'Order Pleased...'], 200);
+
     }
     public function incrementProductQty($id){
 

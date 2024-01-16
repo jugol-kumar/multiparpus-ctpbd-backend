@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Variation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -462,6 +463,8 @@ class ProductController extends Controller
                 $image->url = Storage::url("uploads/$image->image");
             });
         });
+
+//        Cache::store('posProducts', )
 
         return response()->json($stokes, 200);
     }

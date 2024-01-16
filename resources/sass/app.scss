@@ -9,12 +9,43 @@
 
 // Card match height
 .match-height {
-    > [class*='col'] {
-      display: flex;
-      flex-flow: column;
-  
-      > .card {
-        flex: 1 1 auto;
-      }
+  > [class*='col'] {
+    display: flex;
+    flex-flow: column;
+
+    > .card {
+      flex: 1 1 auto;
     }
   }
+}
+
+body{
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar,
+::-webkit-scrollbar {
+  width: 5px;
+  border-radius:20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track {
+  background: white; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+.product-content img{
+  max-width: 100% !important;
+  width:100% !important;
+}

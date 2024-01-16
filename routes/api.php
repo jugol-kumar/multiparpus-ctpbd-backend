@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\MonthController;
+use App\Http\Controllers\Api\OrderAreaController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\Api\ProductController;
@@ -99,6 +100,8 @@ Route::get('product-with-variations', [ProductController::class, 'variationsProd
 
 Route::get('/admin/pos-products', [ProductController::class, 'posProducts']);
 
+Route::get('/admin/delete-area/{id}', [OrderAreaController::class, 'destroy']);
+
 
 Route::post('login', [CustomerController::class, 'loginCustomer']);
 
@@ -120,7 +123,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::put('/admin/update-stokes/{id}', [ProductController::class, 'updateStoke']);
 
 
-
+    Route::get('/admin/areas', [OrderAreaController::class, 'index']);
+    Route::post('/admin/areas-save', [OrderAreaController::class, 'store']);
 
     Route::get('logout', [CustomerController::class, 'logoutCustomer']);
 });

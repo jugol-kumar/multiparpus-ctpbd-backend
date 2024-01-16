@@ -77,6 +77,7 @@
                         <h6 class="fw-bold">Sku: {{ stokeInfo?.sku }}</h6>
                         <h6 class="fw-bold">Unit Price: {{ stokeInfo?.price  }} $</h6>
 
+                        <h6 class="fw-bolder">Current Stoke: <span class="badge bg-primary">{{  stokeInfo.qty }}</span></h6>
                         <hr class="border broder-1">
                         
                         <div>

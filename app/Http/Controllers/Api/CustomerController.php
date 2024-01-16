@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,8 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        return response()->json(Customer::all());
+        $customers = User::query()->with(['addresses', 'addresses.orderArea'])->where('role', 'customer')->get();
+        return response()->json($customers);
     }
 
     public function store(Request $request)

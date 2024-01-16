@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class OrderArea extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+
+
+
 }

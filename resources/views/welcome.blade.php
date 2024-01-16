@@ -5,6 +5,15 @@
     <base href="">
     <meta charset="utf-8" />
     <title>Comfort | Inventory</title>
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset("logo.svg") }}">
+    <link rel="icon" type="image/svg" sizes="32x32" href="{{ asset("logo.svg") }}">
+    <link rel="icon" type="image/svg" sizes="16x16" href="{{ asset("logo.svg") }}">
+
+
+
     <link href="{{ asset('backend/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/assets/plugins/custom/uppy/uppy.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css" />
