@@ -10,7 +10,6 @@ use App\Models\ProductVariant;
 use App\Models\ProductVariantPrice;
 use App\Models\User;
 use App\Models\Variation;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -92,9 +91,9 @@ class ProductController extends Controller
             $item["option"] = Variation::select('name', 'id')->findOrFail($item["option"]);
             $item["selectVariant"] = $item['tags'][0];
             return $item;
-        }, $varients);
+        }, $varients ?? []);
 
-        $product->attributes = $attributes;
+        $product->attributes = $attributes ?? [];
 
         $product->showPrice = showPrices($product);
         $product->currency = get_setting('currency');
@@ -444,7 +443,28 @@ class ProductController extends Controller
     }
 
 
+    public function updateStoke(Request $request, $id){
+        $stoke = ProductStock::query()->findOrFail($id);
 
+        $stoke->qty += $request->input("qty");
+        $stoke->update();
+
+        return response()->json(['message' => 'Product Stoke Added.....'], 200);
+
+    }
+
+
+    public function posProducts()
+    {
+        $stokes = ProductStock::query()->with(['product.category', 'product.images'])->get();
+        $stokes->each(function ($stock) {
+            $stock->product->images->each(function ($image) {
+                $image->url = Storage::url("uploads/$image->image");
+            });
+        });
+
+        return response()->json($stokes, 200);
+    }
 
 
 

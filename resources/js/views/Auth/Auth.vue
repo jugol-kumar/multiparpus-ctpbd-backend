@@ -125,6 +125,11 @@ export default {
                     console.log(e);
                 });
         }
+    },
+    created(){
+        if(User.loggedIn()){
+            this.$router.push({name:"Dashboard"})
+        }
     }
 }
 

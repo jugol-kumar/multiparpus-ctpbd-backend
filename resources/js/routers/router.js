@@ -33,7 +33,6 @@ import ManageSalary from '@/components/pages/salary/Index.vue'
 import MonthSalary from '@/components/pages/salary/MonthSalary.vue'
 
 
-import Pos from '@/components/pages/pos/Index.vue'
 import FileUpload from '@/components/pages/uploadfile/UploadFile.vue';
 
 import Dropzone from '@/components/pages/media/Dropzone.vue';
@@ -223,7 +222,7 @@ const routes =[
     {
         path:'/pos',
         name: 'Pos',
-        component: Pos
+        component: ()=>import("@/views/pos/Index.vue")
     },
 
     //order route
@@ -269,7 +268,6 @@ const routes =[
         name:'Emp',
         component: Emp
     },
-
 ]
 
 const router = createRouter({

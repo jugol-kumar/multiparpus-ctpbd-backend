@@ -39,7 +39,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(product, i) in CartProducts">
+                                <tr v-for="(product, i) in CartProducts" :key="`card-product-${i}`">
                                     <td>{{ i+1 }}</td>
                                     <td><a href="#" @click="showSingleProduct(product.product_id)">{{ product.title }}</a></td>
                                     <td>{{ product.quantity }}
@@ -118,7 +118,7 @@
                                         <label>Customer Name</label>
                                         <select class="form-control form-control-solid" v-model="order.customer">
                                             <option disabled="true" selected>~~Select Customer ~~</option>
-                                            <option  v-for="(customer, i) in employes" :value="customer.id">{{ customer.name }}</option>
+                                            <option  v-for="(customer, i) in employes" :value="customer.id" :key="`cm-${i}`">{{ customer.name }}</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -164,9 +164,13 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="text" class="form-control form-control-solid mb-3" placeholder="Product Search Form Here">
+                        <input type="text" v-model="filterBox" class="form-control form-control-solid mb-3" placeholder="Product Search Form Here">
                         <div class="example-preview">
-                            <ul class="nav nav-pills" id="myTab1" role="tablist">
+
+                            <TreeCategory @update:modelValue="changeData"/>
+                            
+
+                            <!-- <ul class="nav nav-pills" id="myTab1" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab-1" data-toggle="tab" href="#home-1">
                                         <span class="nav-icon">
@@ -175,7 +179,7 @@
                                         <span class="nav-text">All Products</span>
                                     </a>
                                 </li>
-                                <li class="nav-item" v-for="(category, i) in categories">
+                                <li class="nav-item" v-for="(category, i) in categories" :key="`cat-item-${i}`">
                                     <a @click="productByCategory(category.id)" class="nav-link" id="profile-tab-1" data-toggle="tab" href="#profile-1"
                                        aria-controls="profile">
                                             <span class="nav-icon">
@@ -184,23 +188,24 @@
                                         <span class="nav-text">{{ category.name }}</span>
                                     </a>
                                 </li>
-                            </ul>
+                            </ul> -->
 
                             <div class="tab-content mt-5" id="myTabContent1">
                                 <div class="tab-pane fade show active" id="home-1" role="tabpanel" aria-labelledby="home-tab-1">
-                                    <div class="row">
-                                        <div class="col-md-4 mt-2" v-for="(product, i) in products" @dblclick="doubleClick(product.id)" @click="singleClick(product.id)">
+                                    <div class="row match-height">
+                                        <div class="col-md-4 mt-2" v-for="(product, i) in filterProducts"
+                                         @dblclick="doubleClick(product.id)" 
+                                         @click="singleClick(product.id)" :key="`pos-s-roduct-${i}`">
                                             <router-link to="">
                                                 <div class="card-sl">
                                                     <div class="card-image">
-                                                        <img :src="`${product.photo}`" />
+                                                        <img :src="`${ product?.product?.images[0]?.url}`" />
                                                     </div>
-                                                    <a class="card-action" href="#"><i class="fa fa-heart"></i></a>
                                                     <div class="card-heading">
-                                                        {{ product.title }}
+                                                        {{ product?.product?.title?.slice(0, 10) }} - {{ product.varient?.replace(/\//g, '-')?.slice(0, -1) }}...
                                                     </div>
                                                     <div class="card-text">
-                                                        $67,400
+                                                        {{ product?.price }} $
                                                     </div>
                                                     <a href="#" class="card-button" @click="doubleClick(product.id)"> Purchase</a>
                                                 </div>
@@ -210,7 +215,9 @@
                                 </div>
                                 <div class="tab-pane fade" id="profile-1" role="tabpanel" aria-labelledby="profile-tab-1">
                                     <div class="row">
-                                        <div class="col-md-4 mt-2" v-for="(product, i) in categoryProducts" @dblclick="doubleClick(product.id)" @click="singleClick(product.id)">
+                                        <div class="col-md-4 mt-2" v-for="(product, i) in categoryProducts" 
+                                        @dblclick="doubleClick(product.id)" 
+                                        @click="singleClick(product.id)" :key="`product-${i}`">
                                             <router-link to="">
                                                 <div class="card-sl">
                                                     <div class="card-image">
@@ -320,8 +327,12 @@
 
 <script>
 let time = null;
+import TreeCategory from "@/components/TreeCategory.vue"
 export default {
     name: "ManageEmployee",
+    components:{
+        TreeCategory
+    },
     data() {
         return {
             form:{
@@ -340,6 +351,7 @@ export default {
             categoryProducts: {},
             CartProducts:{},
             product:{},
+            filterBox:null,
         }
     },
     methods: {
@@ -357,7 +369,7 @@ export default {
             })
         },
         allProducts(){
-            this.$axios.get('api/product')
+            this.$axios.get('api/admin/pos-products')
             .then(res => {
                 this.products = res.data
             })
@@ -538,20 +550,22 @@ export default {
                 this.$router.push({name: "Login"})
             }
         },
-
-
         // first clear  time
         singleClick(id) {
-         clearTimeout(time);
-        time = setTimeout(() => {
-            this.showSingleProduct(id)
-        }, 300);
-    },
+            clearTimeout(time);
+            time = setTimeout(() => {
+                this.showSingleProduct(id)
+            }, 300);
+        },
 
-    doubleClick(id) {
-        clearTimeout(time);
-        this.addToPos(id)
-    }
+        doubleClick(id) {
+            clearTimeout(time);
+            this.addToPos(id)
+        },
+
+        changeData(event){
+            console.log(event)
+        },
 
 
     },
@@ -571,11 +585,23 @@ export default {
           }
         return sum;
       },
-        grandTotal(){
-          let vat = (this.subTotal * 5) /100;
-          let grandTotal = vat + this.subTotal
-          return grandTotal;
-        }
+      grandTotal(){
+            let vat = (this.subTotal * 5) /100;
+            let grandTotal = vat + this.subTotal
+            return grandTotal;
+      },
+
+
+      filterProducts(){
+        return this.products?.map(item => {
+            console.log(item)
+
+            return item?.product?.cateogry?.id ;
+        })
+      }
+
+
+
     },
     created() {
         this.isLogined();
@@ -628,16 +654,17 @@ export default {
 }
 
 .card-heading {
-    font-size: 10px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 500;
     background: #fff;
-    padding: 10px 15px;
+    padding: 0 10px;
 }
 
 .card-text {
-    padding: 10px 15px;
+    padding: 0px 10px;
     background: #fff;
     font-size: 14px;
+    font-weight: bold;
     color: #636262;
 }
 

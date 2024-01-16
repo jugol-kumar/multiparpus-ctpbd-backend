@@ -1,8 +1,20 @@
 // Fonts
 @import url('https://fonts.bunny.net/css?family=Nunito');
-
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import 'bootstrap/scss/bootstrap';
+// // Bootstrap
+// @import 'bootstrap/scss/bootstrap';
+
+
+// Card match height
+.match-height {
+    > [class*='col'] {
+      display: flex;
+      flex-flow: column;
+  
+      > .card {
+        flex: 1 1 auto;
+      }
+    }
+  }

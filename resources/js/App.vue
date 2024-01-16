@@ -38,15 +38,32 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "@/components/Header.vue"
 import Sidebar from "@/components/Sidebar.vue"
+import useAxios from "@/composables/useApi";
 
 const isLogined = ref(false)
-onMounted(() => {
+onMounted(async () => {
+
+    const { loading,  error, sendRequest,} = useAxios();
+
     isLogined.value = User.loggedIn();
     console.log(User.loggedIn())
     const router = useRouter();
-    if (!User.loggedIn()) {
-        router.push({ name: 'Login' })
-    } 
+
+    let userInfo = User.userInfo()
+
+    const user = await sendRequest({
+        url: `/api/user`,
+        headers: {
+            "Authorization": `Bearer ${userInfo?.token}`
+        }
+    }); 
+
+    if(!user){
+        localStorage.removeItem('_user')
+        router.push({name:'Login'})
+    }
+
+
     // else {
     //     router.push({ name: 'Dashboard' })
     // }

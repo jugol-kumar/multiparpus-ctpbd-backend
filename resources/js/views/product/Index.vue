@@ -219,7 +219,7 @@
 
                             <div class="form-group">
                                 <label>Full Details</label>
-<!--                                <Editor v-model="details" height="400px" isMultiline/>-->
+                               <Editor v-model="details" height="400px" isMultiline/>
                             </div>
                         </form>
                     </div>
@@ -230,13 +230,14 @@
 </template>
 
 <script>
-// import Editor from "../../Editor";
+
+import Editor from "@/components/Editor.vue";
 import TreeCategory from "@/components/TreeCategory.vue";
 
 export default {
     name: "Index",
     components:{
-        // Editor,
+        Editor,
         TreeCategory,
     },
     data() {

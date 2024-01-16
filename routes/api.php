@@ -97,6 +97,8 @@ Route::get('product-with-variations', [ProductController::class, 'variationsProd
 
 
 
+Route::get('/admin/pos-products', [ProductController::class, 'posProducts']);
+
 
 Route::post('login', [CustomerController::class, 'loginCustomer']);
 
@@ -115,6 +117,9 @@ Route::middleware('auth:sanctum')->group(function(){
     // admin router
     Route::get('/admin/orders', [AdminOrderController::class, 'index']);
     Route::get('/admin/product-stokes', [ProductController::class, 'stokeProducts']);
+    Route::put('/admin/update-stokes/{id}', [ProductController::class, 'updateStoke']);
+
+
 
 
     Route::get('logout', [CustomerController::class, 'logoutCustomer']);

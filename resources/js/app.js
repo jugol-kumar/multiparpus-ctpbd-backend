@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import {createPinia} from "pinia";
 import App from './App.vue'
 import 'vue-select/dist/vue-select.css';
 import router from './routers/router'
@@ -6,7 +7,6 @@ import User from './helpers/User'
 import Swal from "sweetalert2";
 import axios from "axios";
 import moment from 'moment'
-import {createPinia} from "pinia";
 
 
 window.Swal = Swal
