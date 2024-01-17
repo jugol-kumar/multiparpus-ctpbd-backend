@@ -31,6 +31,7 @@ class PosController extends Controller
             'sub_total' => $request->input('subTotal'),
             'grand_total' => $request->input('subTotal'),
             'order_date' => Carbon::now(),
+            'order_type' => 'pos'
         ]);
 
         $orderDetails = [];

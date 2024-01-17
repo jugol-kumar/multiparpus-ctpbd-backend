@@ -4,7 +4,6 @@
             <div class="card-header flex-wrap py-5">
                 <div class="card-title">
                     <h3 class="card-label">Order Details
-                        <span class="d-block text-muted pt-2 font-size-sm">all employees details is here</span>
                     </h3>
                 </div>
             </div>
@@ -13,10 +12,11 @@
                 <table class="table table-separate table-head-custom table-checkable" id="">
                     <thead>
                         <tr>
-                            <th>Order ID</th>
-                            <th>Customer Name</th>
-                            <th>Order Total</th>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Total</th>
                             <th>Order Status</th>
+                            <th class="text-center">Type</th>
                             <th>Payment Status</th>
                             <th>Payment Method</th>
                             <th>Order Date</th>
@@ -36,12 +36,20 @@
                                     </div>
                                 </div> -->
                             </td>
-                            <td>{{ order.grand_total }}</td>
-                            <td>order status</td>
-                            <td>payment status</td>
-
-                            <td> method </td>
-                            <td>{{ order.order_date }}</td>
+                            <td>{{ order.grand_total }} $</td>
+                            <td class="text-center">
+                                <span class="badge bg-primary">{{ order?.order_status }}</span>
+                            </td>
+                            <td>{{ order?.order_type }}</td>
+                            <td class="text-center">
+                                <span class="badge bg-info">
+                                    {{ order?.payment_status }}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <span class="text-capitalize">{{ order?.payment_method }} </span>
+                            </td>
+                            <td>{{ order?.order_date }}</td>
                             <td>
                                 <a href="#" @click="showSingleOrder(order)">
                                     <span class="svg-icon svg-icon-md">
@@ -109,7 +117,6 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-
                     <div class="card invoice-preview-card shadow-none py-5">
                         <div class="card-body invoice-padding pb-0 mb-5">
                             <div class="d-flex align-items-center justify-content-between">
@@ -121,13 +128,14 @@
                                         <h3 class="mt-1 fw-semibold fs-3 mb-3 text-capitalize">Invoice To: </h3>
                                         <p class="card-text mb-0 pb-0" v-if="orderDetails?.customer?.full_name">Name:
                                             <strong>{{
-                                                orderDetails?.customer?.full_name }}</strong></p>
-                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.address?.phone">Phone: {{
-                                            orderDetails?.address?.phone }}</p>
-                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.address?.email">Email: {{
-                                            orderDetails?.address?.email }}</p>
-                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.address?.address">Address: {{
-                                            orderDetails?.address?.address }}</p>
+                                                orderDetails?.customer?.full_name }}</strong>
+                                        </p>
+                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.address?.phone || orderDetails?.customer?.phone">Phone: {{
+                                            orderDetails?.address?.phone ?? orderDetails?.customer?.phone}}</p>
+                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.address?.email || orderDetails?.customer?.email">Email: {{
+                                            orderDetails?.address?.email ?? orderDetails?.customer?.email}}</p>
+                                        <p class="card-text mb-0 pb-0" v-if="orderDetails?.address?.address || orderDetails?.customer?.address">Address: {{
+                                            orderDetails?.address?.address ?? orderDetails?.customer?.address}}</p>
                                     </div>
                                 </div>
                                 <div style="text-align: right">
