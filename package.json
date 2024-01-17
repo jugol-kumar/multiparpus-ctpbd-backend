@@ -10,6 +10,7 @@
         "axios": "^0.21",
         "backend": "0.0.0",
         "bootstrap": "^5.2.3",
+        "dotenv-webpack": "^8.0.1",
         "jquery": "^3.2",
         "laravel-mix": "^6.0.6",
         "laravel-vite-plugin": "^1.0.1",
