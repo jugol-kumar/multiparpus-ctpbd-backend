@@ -33,21 +33,30 @@ body{
 /* Track */
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-track {
-  background: white; 
+  background: white;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 
 .product-content img{
   max-width: 100% !important;
   width:100% !important;
+}
+
+// text editor style
+.note-editing-area{
+  background: #ffffff;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable{
+    height: 10rem;
 }

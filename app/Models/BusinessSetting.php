@@ -22,9 +22,4 @@ class BusinessSetting extends Model
     protected $fillable = ['type','value'];
 
 
-    public function images(){
-        return $this->morphMany('App\Models\Gallery', 'imageable');
-    }
-
-
 }

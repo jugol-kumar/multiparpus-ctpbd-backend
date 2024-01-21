@@ -46,7 +46,6 @@ onMounted(async () => {
     const { loading,  error, sendRequest,} = useAxios();
 
     isLogined.value = User.loggedIn();
-    console.log(User.loggedIn())
     const router = useRouter();
 
     let userInfo = User.userInfo()

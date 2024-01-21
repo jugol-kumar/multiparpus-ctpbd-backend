@@ -2,6 +2,7 @@
 
 
 use App\Models\BusinessSetting;
+use Illuminate\Support\Facades\File;
 
 
 if (!function_exists('get_setting')) {
@@ -52,6 +53,31 @@ if(! function_exists('formatPrice')){
 
 
 
+if (!function_exists('overWriteEnv')){
+    function overWriteEnv($key, $value){
+        $envFile = base_path('.env');
+//        $key = "VARIABLE_NAME";
+//        $value = "new value";
+
+        if (File::exists($envFile)) {
+            // Read the contents of the .env file
+            $contents = File::get($envFile);
+
+            // Replace the existing value with the new value
+            $updatedContents = Str::replaceFirst(
+                "{$key}=" . env($key),
+                "{$key}={$value}",
+                $contents
+            );
+
+            // Write the updated contents back to the .env file
+            File::put($envFile, $updatedContents);
+
+            return "Environment variable updated successfully!";
+        }
+
+    }
+}
 
 
 

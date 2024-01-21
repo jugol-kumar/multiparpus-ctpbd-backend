@@ -33,7 +33,7 @@
                         <label>Photo</label>
                         <input type="file" class="form-control"  @change="uploadFile">
                     </div>
-                    <img v-show="from.photo" :src="from.photo" alt="" style="width: 180px;height: 120px;">
+                    <img v-show="from.photo" class="preview-image" :src="from.photo" alt="">
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -65,8 +65,6 @@ export default {
     methods: {
         uploadFile(event){
             let File = event.target.files[0];
-
-
             let reader = new FileReader();
             reader.onload = event => {
                 this.from.photo = event.target.result
@@ -74,7 +72,7 @@ export default {
             reader.readAsDataURL(File);
         },
         saveCustomer(){
-            axios.post('api/customer', this.from)
+            this.$axios.post('api/customer', this.from)
             .then( res => {
                 this.from= '';
                 this.errors = '';
@@ -102,5 +100,11 @@ export default {
 </script>
 
 <style scoped>
-
+.preview-image{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #83c1ff;
+}
 </style>

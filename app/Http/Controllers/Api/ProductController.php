@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderDetails;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductStock;
@@ -13,6 +14,7 @@ use App\Models\Variation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -427,9 +429,19 @@ class ProductController extends Controller
 
     public function variationsProducts()
     {
+//        return Product::query()->with(['images', 'stocks'])->get()->map(function ($product) {
+//            $product->images->each(function ($image) {
+//                $image->url = Storage::url("uploads/$image->image");
+//            });
+//            return $product;
+//        });
 
-        return Product::query()->with(['images'])->get()
-            ->map(function ($product) {
+        return Product::query()
+            ->with(['images', 'stocks'])
+            ->withCount('orderDetails')
+            ->orderByDesc('order_details_count')
+            ->take(10)
+            ->get()->map(function ($product) {
                 $product->images->each(function ($image) {
                     $image->url = Storage::url("uploads/$image->image");
                 });
@@ -469,6 +481,73 @@ class ProductController extends Controller
         return response()->json($stokes, 200);
     }
 
+
+    public function filterProduct(Request $request){
+
+        $products = Product::query()
+            ->with(['images', 'stocks', 'category'])
+            ->when(\Illuminate\Support\Facades\Request::input('category'), function ($query, $search){
+                $query->whereHas('category', function ($query)use($search){
+                    $query->where('id', $search);
+                });
+            })
+            ->when(\Illuminate\Support\Facades\Request::input('priceRange'), function ($query, $search){
+                $query->whereBetween('price', [$search['min'], $search['max']]);
+            })
+            ->when(\Illuminate\Support\Facades\Request::input('orderBy'), function ($query, $search) {
+                if ($search === 'price_low_high'){
+                    $query->orderBy('price', 'asc');
+                }
+                if ($search === 'price_high_low'){
+                    $query->orderBy('price', 'desc');
+                }
+                if ($search === 'newest_first'){
+                    $query->orderBy('created_at', 'desc');
+                }
+                if ($search === 'oldest_first'){
+                    $query->orderBy('created_at', 'asc');
+                }
+            })
+            ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search){
+                $query->where('title', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(\Illuminate\Support\Facades\Request::input('perPage') ?? 30)
+            ->withQueryString()
+            ->through(fn($product) => $product);
+
+        $products->each(function($product) {
+            $product->images->map(function($image) {
+                $image->url = Storage::url("uploads/$image->image");
+                return $image;
+            });
+        });
+        return response()->json($products, 200);
+
+
+
+//        $products = Product::with(['images', 'stocks', 'category'])
+//        ->when($request->input('category'), function($query, $search){
+//            $query->where('category_id', $search);
+//        })
+//        ->when($request->input('search'), function($query, $search){
+//            $query->where('title',  'like', "%{$search}%")
+//            ->orWhere('title',  'like', "%{$search}%")
+//            ->orWhere('description',  'like', "%{$search}%")
+//            ->orWhereHas('stocks', function($query)use($search){
+//                $query->where('varient',  'like', "%{$search}%");
+//            });
+//        })
+//        ->paginate($request->input('perPage') ?? 15);
+//        $products->each(function($product) {
+//            $product->images->map(function($image) {
+//                $image->url = Storage::url("uploads/$image->image");
+//                return $image;
+//            });
+//        });
+//
+//        return response()->json($products, 200);
+    }
 
 
 

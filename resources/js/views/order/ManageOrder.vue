@@ -24,7 +24,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(order, i) in orders?.orders.data" :key="`single-order-${i}`">
+                        <tr v-for="(order, i) in orders?.orders?.data" :key="`single-order-${i}`">
                             <td>{{ i + 1 }}</td>
                             <td>{{ order.customer?.full_name }}
                                 <!-- <div>

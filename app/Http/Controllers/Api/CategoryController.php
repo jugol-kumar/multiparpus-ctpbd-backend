@@ -13,40 +13,28 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with(['childrenRecursive'])
-            ->where('parent_id', 0)
+        $categories = Category::with(['childrenRecursive', 'parentCategory'])
+//            ->where('parent_id', 0)
+                ->latest()
             ->get();
         return response()->json($categories);
     }
 
     public function store(Request $request)
     {
-
-
         $this->validate($request, [
             'name' => 'required|max:30|min:1|unique:categories',
             'photo' => 'required',
         ]);
 
-        $photo = $request->image;
-        $imageName = time().random_int(1,9999).'.'.$photo->getClientOriginalExtension();
-
-//        $position = strpos($photo, ';');
-//        $subString = substr($photo, 0,$position);
-//        $imageExt = explode( '/',$subString )[1];
-//        $imageName = time().rand(0000,9999).'.'.$imageExt;
-//          $photo->storeAs('public/category/', $imageName);
-          $photo->move('category/',$imageName);
-//        $resize = Image::make($photo)->resize(200, 180)->encode('jpg');
-//        Storage::put("public/category/$imageName", $resize->__toString());
-
-//        $uploadPath = "storage/category/$imageName";
-        $uploadPath = "category/$imageName";
-
-
+        if (\Illuminate\Support\Facades\Request::hasFile('image')){
+            $icon = \Illuminate\Support\Facades\Request::file('image')->store('category', 'public');
+        }
         $data = $request->all();
+        $data['parent_id'] = $request->integer('parent') ?? 0;
         $data['slug'] = Str::slug($request->name);
-        $data['photo'] = $uploadPath;
+        $data['photo'] = $icon ??  NULL;
+        $data['details'] = $request->details ??  NULL;
         Category::create($data);
         return response()->json(['message' => 'Category save successfully done.'], 200);
     }
@@ -110,10 +98,36 @@ class CategoryController extends Controller
 
 
 
+    public function navCategories(){
+
+        $ids = collect(json_decode(get_setting('navCats')))->pluck('id');
+        $categories = Category::query()->with(['childrenRecursive'])->whereIn('id', $ids)->get();
+
+
+        return response()->json($categories);
+    }
 
 
 
+
+    public function homeCategories()
+    {
+        $categories = collect(json_decode(get_setting('navCats')))->pluck('id');
+        $products = Category::query()->with(['products', 'products.images', 'products.stocks'])->whereIn('id', $categories)->get();
+
+        $products->each(function ($product){
+            $product->products->each(function($product) {
+                $product->images->map(function($image) {
+                    $image->url = Storage::url("uploads/$image->image");
+                    return $image;
+                });
+            });
+        });
+
+        return response()->json($products);
+    }
 
 
 
 }
+

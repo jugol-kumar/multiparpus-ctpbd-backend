@@ -14,13 +14,13 @@
 
 
 
-    <link href="{{ asset('backend/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <!-- <link href="{{ asset('backend/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" /> -->
     <link href="{{ asset('backend/assets/plugins/custom/uppy/uppy.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/file-upload-with-preview.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <link rel="stylesheet" href="{{ asset('backend/assets/css/dropzone-style.min.css') }}" type="text/css"/>
+    <!-- <link rel="stylesheet" href="{{ asset('backend/assets/css/dropzone-style.min.css') }}" type="text/css"/> -->
 
     <!--end::Page Vendors Styles-->
     <!--begin::Global Theme Styles(used by all pages)-->
@@ -124,26 +124,27 @@
 
 
 
-<script src="{{ asset('backend/assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
-<script src="{{ asset('backend/assets/js/pages/crud/datatables/basic/paginations.js') }}"></script>
+<!-- <script src="{{ asset('backend/assets/plugins/custom/datatables/datatables.bundle.js')}}"></script> -->
+<!-- <script src="{{ asset('backend/assets/js/pages/crud/datatables/basic/paginations.js') }}"></script> -->
 
 {{--<script src="{{ asset('backend/assets/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>--}}
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
 {{--<script src="{{ asset('backend/assets/js/pages/crud/forms/editors/ckeditor-classic.js') }}'"></script>--}}
 <script src="https://unpkg.com/vue-upload-multiple-image@1.1.6/dist/vue-upload-multiple-image.js"></script>
-<script src="{{ asset('/backend') }}/assets/js/pages/crud/forms/editors/summernote.js"></script>
-<script src="{{ asset('/backend') }}/assets/js/pages/crud/forms/widgets/select2.js"></script>
+{{--<script type="module" src="{{ asset('/backend') }}/assets/js/pages/crud/forms/editors/summernote.js"></script>--}}
+<!-- <script src="{{ asset('/backend') }}/assets/js/pages/crud/forms/widgets/select2.js"></script> -->
 {{--<script src="{{ asset('backend/assets/plugins/custom/uppy/uppy.bundle.js') }}"></script>--}}
 {{--<script src="{{ asset('backend/assets/js/pages/crud/file-upload/uppy.js') }}"></script>--}}
 {{--<script src="{{ asset('backend/assets/js/pages/custom/login/login-general.js') }}"></script>--}}
 
 
 
-<script src="{{ asset('backend/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+<!-- <script src="{{ asset('backend/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script> -->
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
-<script src="{{ asset('backend/assets/js/pages/crud/datatables/advanced/column-rendering.js') }}"></script>
+<!-- <script src="{{ asset('backend/assets/js/pages/crud/datatables/advanced/column-rendering.js') }}"></script> -->
+
 
 
 
@@ -156,6 +157,7 @@
     // var upload = new FileUploadWithPreview('myUniqueUploadId');
     //  new FileUploadWithPreview('productPhotos');
 </script>
+
 </body>
 <!--end::Body-->
 </html>

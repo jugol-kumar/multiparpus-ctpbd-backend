@@ -8,15 +8,6 @@ import AddSupplier from '@/components/pages/supplier/Add.vue'
 import EditSupplier from '@/components/pages/supplier/Edit.vue'
 import ManageSupplier from '@/components/pages/supplier/Index.vue'
 
-import AddCategory from '@/components/pages/category/Add.vue'
-import ManageCategory from '@/components/pages/category/Index.vue'
-import EditCategory from '@/components/pages/category/Edit.vue'
-
-import AddBrand from '@/components/pages/brand/Add.vue'
-import ManageBrand from '@/components/pages/brand/Index.vue'
-import EditBrand from '@/components/pages/brand/Edit.vue'
-
-
 import ProductVariations from '@/components/pages/variations/Add.vue'
 import MediVariation from '@/components/pages/variations/MediVariation.vue'
 
@@ -92,34 +83,34 @@ const routes =[
     {
         path:'/add-category',
         name:'AddCategory',
-        component: AddCategory
+        component: ()=>import("@/views/category/Add.vue")
     },
     {
         path:'/manage-category',
         name:'ManageCategory',
-        component: ManageCategory
+        component: ()=>import("@/views/category/Index.vue")
     },
     {
         path:'/edit-category/:id',
         name:'EditCategory',
-        component: EditCategory
+        component: ()=>import("@/views/category/Edit.vue")
     },
 
     //brand routes
     {
         path:'/add-brand',
         name:'AddBrand',
-        component: AddBrand
+        component:  ()=>import("@/views/brand/Add.vue")
     },
     {
         path:'/manage-brand',
         name:'ManageBrand',
-        component: ManageBrand
+        component:  ()=>import("@/views/brand/Index.vue")
     },
     {
         path:'/edit-brand/:id',
         name:'EditBrand',
-        component: EditBrand
+        component:  ()=>import("@/views/brand/Edit.vue")
     },
 
     //variation routes
@@ -190,17 +181,17 @@ const routes =[
     {
         path:'/add-customer',
         name:'AddCustomer',
-        component: import("@/views/customer/Add.vue")
+        component: ()=>  import("@/views/customer/Add.vue")
     },
     {
         path:'/manage-customer',
         name:'ManageCustomer',
-        component:import("@/views/customer/Index.vue")
+        component: ()=> import("@/views/customer/Index.vue")
     },
     {
         path:'/edit-customer/:id',
         name:'EditCustomer',
-        component: import("@/views/customer/Edit.vue")
+        component: ()=> import("@/views/customer/Edit.vue")
     },
 
     
@@ -265,6 +256,12 @@ const routes =[
         component: FileUpload
     },
 
+    // settings routes
+    {
+        path:'/setting',
+        name:'Setting',
+        component: ()=>import("@/views/Settings/Setting.vue")
+    },
 
     //emp routes
     {

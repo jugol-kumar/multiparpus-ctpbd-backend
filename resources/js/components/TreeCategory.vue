@@ -20,7 +20,7 @@ import { ref, computed, onMounted } from 'vue';
 import useAxios from '@/composables/useApi.js';
 
 const props = defineProps({
-    modelValue:Number,
+    modelValue:Number|Array,
 })
 
 const modelValue = ref(props.modelValue)
@@ -38,7 +38,8 @@ const { loading, error, sendRequest } = useAxios();
 const data = ref(null);
 
 onMounted(async () => {
-    const responseData = await sendRequest({
+    let responseData;
+    responseData = await sendRequest({
         method: 'get',
         url: '/api/category',
     });
@@ -59,7 +60,6 @@ const selectedCategoryId = ref(null);
 
 function flattenCategories(categories, level = 0, parentPrefix = "") {
     return categories?.reduce((result, category) => {
-
         const prefix = level > 0 ? `${parentPrefix}-` : parentPrefix;
 
         const fullName = `${prefix} ${category.name}`;

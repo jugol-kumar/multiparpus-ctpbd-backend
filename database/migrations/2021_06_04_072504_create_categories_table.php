@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->string('slug')->index();
             $table->string('photo')->nullable();
             $table->mediumText('description')->nullable();
+            $table->longText('details')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

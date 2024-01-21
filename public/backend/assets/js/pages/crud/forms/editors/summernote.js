@@ -5,8 +5,6 @@ var __webpack_exports__ = {};
   !*** ../demo1/src/js/pages/crud/forms/editors/summernote.js ***!
   \**************************************************************/
 
-// Class definition
-
 var KTSummernoteDemo = function () {
     // Private functions
     var demos = function () {

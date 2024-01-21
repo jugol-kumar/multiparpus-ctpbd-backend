@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AdminOrderController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\BusinessSettingController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\EmployeeController;
@@ -46,10 +47,14 @@ Route::apiResource('employee',  EmployeeController::class);
 Route::apiResource('supplier',  SupplierController::class);
 
 Route::apiResource('category',  CategoryController::class);
+Route::get("/navbar-categories", [CategoryController::class, 'navCategories']);
+
+Route::get("/home-categories", [CategoryController::class, 'homeCategories']);
 
 Route::apiResource('brand',     BrandController::class);
 
 Route::apiResource('product',   ProductController::class);
+Route::get('product-filter', [ProductController::class, 'filterProduct']);
 
 Route::apiResource('expense',   ExpenseController::class);
 
@@ -102,6 +107,8 @@ Route::get('/admin/pos-products', [ProductController::class, 'posProducts']);
 
 Route::get('/admin/delete-area/{id}', [OrderAreaController::class, 'destroy']);
 
+Route::post("/admin/save-setting", [BusinessSettingController::class, 'updateSetting']);
+Route::get("/admin/get-setting", [BusinessSettingController::class, 'index']);
 
 Route::post('login', [CustomerController::class, 'loginCustomer']);
 
@@ -126,14 +133,15 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/admin/areas', [OrderAreaController::class, 'index']);
     Route::post('/admin/areas-save', [OrderAreaController::class, 'store']);
 
+
+
+
     Route::get('logout', [CustomerController::class, 'logoutCustomer']);
 });
 
 
 Route::post('/upload-single',function(Request $request){
-
     return $request;
-
     $files = $request->image;
     $files->store('single');
     return response(['status'=>'success'],200);

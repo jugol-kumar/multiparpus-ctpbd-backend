@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Facades\Image;
@@ -30,6 +31,7 @@ class CustomerController extends Controller
 
         if ($request->photo){
             $photo = $request->photo;
+            $photo = $request->photo;
             $position = strpos($photo, ';');
             $subString = substr($photo, 0,$position);
             $imageExt = explode( '/',$subString )[1];
@@ -40,14 +42,16 @@ class CustomerController extends Controller
 
             $uploadPath = "storage/customers/$imageName";
 
-            Customer::create([
-                'name' => $request->name,
+            User::create([
+                'full_name' => $request->name,
+                'username' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'position' => $request->position,
-                'address' => $request->address,
                 'photo' => $uploadPath,
+                'password' => Hash::make(12345678)
             ]);
+
+
             return response()->json(['message' =>'Customer save with image'], 200);
         }else{
             Customer::create([

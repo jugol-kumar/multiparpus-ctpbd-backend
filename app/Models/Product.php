@@ -51,6 +51,10 @@ class Product extends Model
         return $this->hasMany(ProductStock::class);
     }
 
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetails::class);
+    }
 
 
     public function getSlugOptions() : SlugOptions
