@@ -3,9 +3,12 @@
         <!--begin::Brand-->
         <div class="brand flex-column-auto" id="kt_brand">
             <!--begin::Logo-->
-            <a href="index.html" class="brand-logo">
-                <img alt="Logo" :src="`./logo.svg`" />
-            </a>
+            <RouterLink to="/dashboard" class="brand-logo">
+
+<!--                <img src="http://127.0.0.1:8000/category/category1342.png" alt="">-->
+
+                <img alt="Logo" src="../assets/logo.png" class="w-100"/>
+            </RouterLink>
             <!--end::Logo-->
             <!--begin::Toggle-->
             <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
@@ -128,7 +131,7 @@
                         </div>
                     </li>
 
-                    
+
                     <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                         <a href="javascript:;" class="menu-link menu-toggle">
                             <span class="svg-icon menu-icon">
@@ -151,6 +154,7 @@
 
                         <div class="menu-submenu">
                             <ul class="menu-subnav">
+<!--
                                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                                     <router-link :to="{ name: 'MediVariations' }" class="menu-link menu-toggle">
                                         <i class="menu-bullet menu-bullet-line">
@@ -159,7 +163,8 @@
                                         <span class="menu-text">Medi variations</span>
                                     </router-link>
                                 </li>
-
+-->
+<!--
                                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                                     <router-link :to="{ name: 'ProductVariations' }" class="menu-link menu-toggle">
                                         <i class="menu-bullet menu-bullet-line">
@@ -167,7 +172,7 @@
                                         </i>
                                         <span class="menu-text">Product variations</span>
                                     </router-link>
-                                </li>
+                                </li>-->
 
                                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                                     <router-link :to="{ name: 'AddProduct' }" class="menu-link menu-toggle">
@@ -209,7 +214,7 @@
                             <span class="menu-text">Manage Stoke</span>
                         </router-link>
                     </li>
-                    
+
                     <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                         <a href="javascript:;" class="menu-link menu-toggle">
                             <span class="svg-icon menu-icon">
@@ -241,14 +246,14 @@
                                     </router-link>
                                 </li>
 
-                                <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-                                    <router-link :to="{ name: 'SearchOrder' }" class="menu-link menu-toggle">
-                                        <i class="menu-bullet menu-bullet-line">
-                                            <span></span>
-                                        </i>
-                                        <span class="menu-text">Search Order</span>
-                                    </router-link>
-                                </li>
+<!--                                <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">-->
+<!--                                    <router-link :to="{ name: 'SearchOrder' }" class="menu-link menu-toggle">-->
+<!--                                        <i class="menu-bullet menu-bullet-line">-->
+<!--                                            <span></span>-->
+<!--                                        </i>-->
+<!--                                        <span class="menu-text">Search Order</span>-->
+<!--                                    </router-link>-->
+<!--                                </li>-->
                             </ul>
                         </div>
                     </li>
@@ -295,7 +300,7 @@
                             </ul>
                         </div>
                     </li>
-                    
+
                     <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                         <a href="javascript:;" class="menu-link menu-toggle">
                             <span class="svg-icon menu-icon">
@@ -380,7 +385,7 @@
                             </ul>
                         </div>
                     </li>
-                    
+
 
                     <li class="menu-item bg-color" aria-haspopup="true">
                         <router-link :to="{ name: 'OrderAreas' }" href="" class="menu-link">

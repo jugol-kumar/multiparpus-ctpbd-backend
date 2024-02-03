@@ -24,6 +24,11 @@ class PosController extends Controller
 //        $address = Address::with('orderArea')->findOrFail($request->addressId);
 //        $grandTotal = $address->orderArea->delivery_charge + $request->orderTotal;
 
+        $request->validate([
+            'customer' => 'required|integer',
+            'payby' => 'required'
+        ]);
+
 
         $order = Order::create([
             'user_id' => $request->input('customer'),

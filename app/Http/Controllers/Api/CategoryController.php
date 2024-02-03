@@ -27,9 +27,18 @@ class CategoryController extends Controller
             'photo' => 'required',
         ]);
 
+
         if (\Illuminate\Support\Facades\Request::hasFile('image')){
-            $icon = \Illuminate\Support\Facades\Request::file('image')->store('category', 'public');
+            $file =  \Illuminate\Support\Facades\Request::file('image');
+            $file->storeAs('uploads', [
+                'disk' => 'public'
+            ]);
+//            $icon = $file->store('/category');
+
+//            $icon = $file->move(public_path('/category'), 'category'.rand(1, 9999).".".$file->getClientOriginalExtension());
         }
+
+
         $data = $request->all();
         $data['parent_id'] = $request->integer('parent') ?? 0;
         $data['slug'] = Str::slug($request->name);
@@ -46,17 +55,27 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
+
         return $request;
+        if (\Illuminate\Support\Facades\Request::hasFile('photo')){
+            $file =  \Illuminate\Support\Facades\Request::file('photo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $icon = $file->storeAs('category', $fileName, [
+                'disk' => 'public'
+            ]);
+        }
+
+        return $icon;
 
 
-//        $this->validate($request, [
-//            'name' => 'required|max:30|min:1|unique:categories',
-//        ]);
-//
-//        $data = $request->all();
-//        $data['slug'] = Str::slug($request->name);
-//        $category->update($data);
-//        return response()->json(['message' => 'Category save successfully done.'], 200);
+        $data = $request->all();
+        $data['parent_id'] = $request->integer('parent') ?? 0;
+        $data['slug'] = Str::slug($request->name);
+        $data['photo'] = $icon ??  NULL;
+        $data['details'] = $request->details ??  NULL;
+        $category->update($data);
+        return response()->json(['message' => 'Category update successfully done.'], 200);
+
     }
 
     public function destroy(Category $category)
@@ -73,27 +92,24 @@ class CategoryController extends Controller
             'name' => 'required|max:30|min:1|unique:categories,name,'.$category->id,
             'description' => 'max:100'
         ]);
-        $category->name = $request->name;
-        $category->slug = Str::slug($request->name);
-        $category->description = $request->description;
-        if($request->hasFile('photo')){
-            $this->validate($request, [
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+
+        if (\Illuminate\Support\Facades\Request::hasFile('photo')){
+            $file =  \Illuminate\Support\Facades\Request::file('photo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $icon = $file->storeAs('category', $fileName, [
+                'disk' => 'public'
             ]);
-            $photo = $request->file('photo');
-            $imageName = time().random_int(1,9999).'.'.$photo->getClientOriginalExtension();
-            $photo->move('category/',$imageName);
-            $uploadPath = "category/$imageName";
-            @unlink($category->photo);
-            $category->photo = $uploadPath;
-        }
-        if ($category->update()){
-            return response()->json(['message' => 'Category update successfully done.'], 200);
-        }else{
-            @unlink($uploadPath);
-            return response()->json(['message' => 'Have an error occurred....'], 500);
         }
 
+        $data = $request->all();
+        $data['parent_id'] = $request->integer('parent') ?? 0;
+        $data['slug'] = Str::slug($request->name);
+        $data['photo'] = $icon ??  NULL;
+        $data['details'] = $request->details ??  NULL;
+        $category->update($data);
+
+        return response()->json(['message' => 'Category update successfully done.'], 200);
     }
 
 

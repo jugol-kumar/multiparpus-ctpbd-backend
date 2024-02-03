@@ -52,19 +52,15 @@
                             <td>{{ order?.order_date }}</td>
                             <td>
                                 <a href="#" @click="showSingleOrder(order)">
-                                    <span class="svg-icon svg-icon-md">
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Navigation/Exchange.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <rect x="0" y="0" width="24" height="24" />
-                                                <path
-                                                    d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
-                                                    fill="#000000" opacity="0.3" />
-                                                <path
-                                                    d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
-                                                    fill="#000000" />
+                                                <polygon points="0 0 24 0 24 24 0 24"/>
+                                                <rect fill="#000000" opacity="0.3" transform="translate(13.000000, 6.000000) rotate(-450.000000) translate(-13.000000, -6.000000) " x="12" y="8.8817842e-16" width="2" height="12" rx="1"/>
+                                                <path d="M9.79289322,3.79289322 C10.1834175,3.40236893 10.8165825,3.40236893 11.2071068,3.79289322 C11.5976311,4.18341751 11.5976311,4.81658249 11.2071068,5.20710678 L8.20710678,8.20710678 C7.81658249,8.59763107 7.18341751,8.59763107 6.79289322,8.20710678 L3.79289322,5.20710678 C3.40236893,4.81658249 3.40236893,4.18341751 3.79289322,3.79289322 C4.18341751,3.40236893 4.81658249,3.40236893 5.20710678,3.79289322 L7.5,6.08578644 L9.79289322,3.79289322 Z" fill="#000000" fill-rule="nonzero" transform="translate(7.500000, 6.000000) rotate(-270.000000) translate(-7.500000, -6.000000) "/>
+                                                <rect fill="#000000" opacity="0.3" transform="translate(11.000000, 18.000000) scale(1, -1) rotate(90.000000) translate(-11.000000, -18.000000) " x="10" y="12" width="2" height="12" rx="1"/>
+                                                <path d="M18.7928932,15.7928932 C19.1834175,15.4023689 19.8165825,15.4023689 20.2071068,15.7928932 C20.5976311,16.1834175 20.5976311,16.8165825 20.2071068,17.2071068 L17.2071068,20.2071068 C16.8165825,20.5976311 16.1834175,20.5976311 15.7928932,20.2071068 L12.7928932,17.2071068 C12.4023689,16.8165825 12.4023689,16.1834175 12.7928932,15.7928932 C13.1834175,15.4023689 13.8165825,15.4023689 14.2071068,15.7928932 L16.5,18.0857864 L18.7928932,15.7928932 Z" fill="#000000" fill-rule="nonzero" transform="translate(16.500000, 18.000000) scale(1, -1) rotate(270.000000) translate(-16.500000, -18.000000) "/>
                                             </g>
-                                        </svg>
+                                        </svg><!--end::Svg Icon-->
                                     </span>
                                 </a>
 
@@ -156,6 +152,20 @@
                                                     class="badge bg-info ms-1">Pending</span></p>
                                         </div>
                                     </div>
+                                    <div class="d-flex flex-column gap-2">
+                                            <v-select :options="orderStatusList"
+                                                      v-model="orderStatus"
+                                                      @update:modelValue="changeOrderStatus"
+                                                      label="name"
+                                                      placeholder="Select Order Status..."/>
+
+                                        <v-select :options="paymentStatusList"
+                                                  v-model="paymentStatus"
+                                                  @update:modelValue="changePaymentStatus"
+                                                  :reduse="cat => cat?.name?.tolowerCase()"
+                                                  label="name"
+                                                  placeholder="Select Payment Status..."/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -245,13 +255,31 @@
 </template>
 
 <script>
+import {ref} from "vue";
+
 export default {
     name: "MangeOrder",
     data() {
         return {
             orders: {},
             orderDetails: {},
-            user: User.userInfo()
+            user: User.userInfo(),
+            orderStatusList: [
+                {name: 'Pending'},
+                {name: 'Received'},
+                {name: 'Process'},
+                {name:'Shipped'},
+                {name:'Delivered'},
+                {name: 'Cancel'}
+            ],
+            paymentStatusList: [
+                {name: 'Pending'},
+                {name: 'Cancelled'},
+                {name: 'Paid'}
+            ],
+
+            orderStatus:null,
+            paymentStatus:null
         }
     },
     methods: {
@@ -261,22 +289,60 @@ export default {
                     'Authorization': `Bearer ${this.user?.token}`
                 }
             })
-                .then(res => {
-                    this.orders = res.data;
-                })
-                .catch(err => {
-                    err.response.data.errors;
-                    Toast.fire({
-                        icon: 'warning',
-                        title: err.response.statusText
-                    });
+            .then(res => {
+                this.orders = res.data;
+            })
+            .catch(err => {
+                err.response.data.errors;
+                Toast.fire({
+                    icon: 'warning',
+                    title: err.response.statusText
                 });
+            });
         },
 
         showSingleOrder(info) {
             $('#exampleModal').modal('show');
             this.orderDetails = info;
         },
+
+        changeOrderStatus(event){
+            this.$axios.get('/api/change-payment-status', {
+                headers: {
+                    'Authorization': `Bearer ${this.user?.token}`
+                }
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                err.response.data.errors;
+                Toast.fire({
+                    icon: 'warning',
+                    title: err.response.statusText
+                });
+            });
+        },
+        changePaymentStatus(event){
+            this.$axios.get('/api/change-order-status', {
+                headers: {
+                    'Authorization': `Bearer ${this.user?.token}`
+                }
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                err.response.data.errors;
+                Toast.fire({
+                    icon: 'warning',
+                    title: err.response.statusText
+                });
+            });
+        },
+
+
+
         isLogined() {
             if (!User.loggedIn()) {
                 this.$router.push({ name: "Login" })
@@ -302,7 +368,8 @@ export default {
     created() {
         this.isLogined();
         this.allOrder();
-    }
+    },
+
 }
 </script>
 

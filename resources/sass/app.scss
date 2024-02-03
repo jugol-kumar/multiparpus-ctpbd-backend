@@ -60,3 +60,11 @@ body{
 .note-editor.note-frame .note-editing-area .note-editable{
     height: 10rem;
 }
+.v-select{
+    //border: 1px solid #e4e6ef;
+    border-radius: 5px;
+    padding: 6px 11px;
+}
+.vs__dropdown-toggle{
+    border:none !important;
+}

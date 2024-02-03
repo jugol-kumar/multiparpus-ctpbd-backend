@@ -11,7 +11,7 @@
                     <ul class="menu-nav">
                         <li
                             class="menu-item menu-item-open menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here menu-item-active">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <a href="https://comfortwing.com" class="menu-link menu-toggle" target="_blank">
                                 <span class="menu-text">Visit Website</span>
                                 <i class="menu-arrow"></i>
                             </a>
@@ -195,42 +195,51 @@
                         <form>
                             <!--begin::Header-->
                             <div class="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top"
-                                style="background-image: url({{ asset('backend/assets/media/misc/bg-1.jpg') }})">
+                                style="background-image: url('./backend/assets/media/misc/bg-1.jpg')">
                                 <div class="menu-content d-flex align-items-center px-3">
                                     <!--begin::Avatar-->
                                     <div class="symbol symbol-50px me-2">
                                         <img alt="Logo"
                                             src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg">
                                     </div>
-                                    <!--end::Avatar-->
-                                    <!--begin::Username-->
-                                    <div class="d-flex flex-column">
-                                        <div class="fw-bold d-flex align-items-center fs-5 text-white">
-                                            Robert Fox
-                                            <span
-                                                class="badge badge-warning fw-bold fs-8 px-2 py-1 ms-2 text-white">Admin</span>
+                                        <!--end::Avatar-->
+                                        <!--begin::Username-->
+                                        <div class="d-flex flex-column">
+                                            <div class="fw-bold d-flex align-items-center fs-5 text-white">
+
+                                                {{ user?.full_name }}
+                                                <span
+                                                    class="badge badge-warning fw-bold fs-8 px-2 py-1 ms-2 text-white text-capitalize">
+                                                {{user?.role}}
+                                            </span>
+                                            </div>
+                                            <a href="#" class="fw-semibold fs-7 text-white">
+                                                {{ user?.email }}
+                                            </a>
                                         </div>
-                                        <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">
-                                            robert@kt.com
-                                        </a>
+<!--                                        <div>-->
+<!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">-->
+<!--                                                <g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="#888888" d="M13.5 3a1.5 1.5 0 0 0-3 0v10a1.5 1.5 0 0 0 3 0V3ZM7.854 5.75a1.5 1.5 0 1 0-1.661-2.5A10.492 10.492 0 0 0 1.5 12c0 5.799 4.701 10.5 10.5 10.5S22.5 17.799 22.5 12c0-3.654-1.867-6.87-4.693-8.75a1.5 1.5 0 0 0-1.66 2.5a7.5 7.5 0 1 1-8.292 0Z"/></g></svg>-->
+<!--                                        </div>-->
                                     </div>
                                     <!--end::Username-->
-                                </div>
+
+
                                 <!--end::Title-->
                                 <!--begin::Tabs-->
                                 <ul class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-line-transparent-white nav-tabs-line-active-border-success mt-3 px-8"
                                     role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active show" data-toggle="tab"
+                                        <a class="nav-link active show text-black" data-toggle="tab"
                                             href="#topbar_notifications_notifications">Profile</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab"
-                                            href="#topbar_notifications_events">Notification</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#topbar_notifications_logs">Messages</a>
-                                    </li>
+<!--                                    <li class="nav-item">-->
+<!--                                        <a class="nav-link text-black" data-toggle="tab"-->
+<!--                                            href="#topbar_notifications_events">Notification</a>-->
+<!--                                    </li>-->
+<!--                                    <li class="nav-item">-->
+<!--                                        <a class="nav-link text-black" data-toggle="tab" href="#topbar_notifications_logs">Messages</a>-->
+<!--                                    </li>-->
                                 </ul>
                                 <!--end::Tabs-->
                             </div>
@@ -244,40 +253,40 @@
                                     <div class="scroll pr-7 mr-n7" data-scroll="true" data-height="300"
                                         data-mobile-height="200">
                                         <!--begin::Item-->
-                                        <div class="d-flex align-items-center mb-6">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-40 symbol-light-primary mr-5">
-                                                <span class="symbol-label">
-                                                    <span class="svg-icon svg-icon-lg svg-icon-primary">
-                                                        <!--begin::Svg Icon | path:{{ asset('backend/assets/media/svg/icons/Home/Library.svg') }}-->
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-                                                            height="24px" viewBox="0 0 24 24" version="1.1">
-                                                            <g stroke="none" stroke-width="1" fill="none"
-                                                                fill-rule="evenodd">
-                                                                <rect x="0" y="0" width="24" height="24" />
-                                                                <path
-                                                                    d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z"
-                                                                    fill="#000000" />
-                                                                <rect fill="#000000" opacity="0.3"
-                                                                    transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)"
-                                                                    x="16.3255682" y="2.94551858" width="3" height="18"
-                                                                    rx="1" />
-                                                            </g>
-                                                        </svg>
-                                                        <!--end::Svg Icon-->
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                            <!--begin::Text-->
-                                            <div class="d-flex flex-column font-weight-bold">
-                                                <a href="#"
-                                                    class="text-dark text-hover-primary mb-1 font-size-lg">Profile</a>
-                                                <span class="text-muted">Goto your profile</span>
-                                            </div>
-                                            <!--end::Text-->
-                                        </div>
+<!--                                        <div class="d-flex align-items-center mb-6">-->
+<!--                                            &lt;!&ndash;begin::Symbol&ndash;&gt;-->
+<!--                                            <div class="symbol symbol-40 symbol-light-primary mr-5">-->
+<!--                                                <span class="symbol-label">-->
+<!--                                                    <span class="svg-icon svg-icon-lg svg-icon-primary">-->
+<!--                                                        &lt;!&ndash;begin::Svg Icon | path:{{ asset('backend/assets/media/svg/icons/Home/Library.svg') }}&ndash;&gt;-->
+<!--                                                        <svg xmlns="http://www.w3.org/2000/svg"-->
+<!--                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"-->
+<!--                                                            height="24px" viewBox="0 0 24 24" version="1.1">-->
+<!--                                                            <g stroke="none" stroke-width="1" fill="none"-->
+<!--                                                                fill-rule="evenodd">-->
+<!--                                                                <rect x="0" y="0" width="24" height="24" />-->
+<!--                                                                <path-->
+<!--                                                                    d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z"-->
+<!--                                                                    fill="#000000" />-->
+<!--                                                                <rect fill="#000000" opacity="0.3"-->
+<!--                                                                    transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)"-->
+<!--                                                                    x="16.3255682" y="2.94551858" width="3" height="18"-->
+<!--                                                                    rx="1" />-->
+<!--                                                            </g>-->
+<!--                                                        </svg>-->
+<!--                                                        &lt;!&ndash;end::Svg Icon&ndash;&gt;-->
+<!--                                                    </span>-->
+<!--                                                </span>-->
+<!--                                            </div>-->
+<!--                                            &lt;!&ndash;end::Symbol&ndash;&gt;-->
+<!--                                            &lt;!&ndash;begin::Text&ndash;&gt;-->
+<!--                                            <div class="d-flex flex-column font-weight-bold">-->
+<!--                                                <a href="#"-->
+<!--                                                    class="text-dark text-hover-primary mb-1 font-size-lg">Profile</a>-->
+<!--                                                <span class="text-muted">Goto your profile</span>-->
+<!--                                            </div>-->
+<!--                                            &lt;!&ndash;end::Text&ndash;&gt;-->
+<!--                                        </div>-->
                                         <!--end::Item-->
                                         <!--begin::Item-->
                                         <div class="d-flex align-items-center mb-6">
@@ -371,7 +380,11 @@
 
 <script>
 export default {
-
+    data(){
+        return {
+            user: User.userInfo(),
+        }
+    }
 }
 </script>
 

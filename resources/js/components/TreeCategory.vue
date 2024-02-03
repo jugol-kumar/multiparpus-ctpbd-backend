@@ -3,6 +3,7 @@
 
     <v-select :options="flattenedCategories"
               v-model="modelValue"
+              class="form-control"
               @update:modelValue="changeData"
               :reduce="cat => cat.id"
               label="fullName"

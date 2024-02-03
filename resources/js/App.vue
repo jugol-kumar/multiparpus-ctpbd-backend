@@ -55,17 +55,12 @@ onMounted(async () => {
         headers: {
             "Authorization": `Bearer ${userInfo?.token}`
         }
-    }); 
+    });
 
     if(!user){
         localStorage.removeItem('_user')
         router.push({name:'Login'})
     }
-
-
-    // else {
-    //     router.push({ name: 'Dashboard' })
-    // }
 })
 </script>
 

@@ -34,13 +34,13 @@ app.component('Uploader', Uploader);
 
 window.Toast = Toast
 window.User = User
-app.config.globalProperties.$APP_URL = "http://localhost:5173" //"https://pos.ctpse.info"  'https://ctpbd.com'
+app.config.globalProperties.$APP_URL =  "http://127.0.0.1:8000" //"https://admin.comfortwing.com"
 
 axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
 const instance = axios.create({
     withCredentials: true,
     withXSRFToken: true,
-    baseURL: "http://localhost:8000" //"https://pos.ctpse.info" //"https://ctpse.info",
+    baseURL: "http://127.0.0.1:8000" //"https://admin.comfortwing.com"
 });
 app.config.globalProperties.$axios = instance;
 

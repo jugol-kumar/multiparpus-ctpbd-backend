@@ -70,7 +70,6 @@ export default {
             this.data.isLoading = true;
             this.$axios.post('/api/auth/login', this.data)
                 .then(res => {
-
                     User.responseAfterLogin(JSON.stringify(res?.data?.data));
                     Toast.fire({
                         icon: 'success',

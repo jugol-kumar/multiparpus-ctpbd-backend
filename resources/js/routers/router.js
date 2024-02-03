@@ -139,7 +139,7 @@ const routes =[
     {
         path:'/modify-product/:id',
         name:'ModifyProduct',
-        component: ()=> import("@/views/product/Add.vue")
+        component: ()=> import("@/views/product/Modify.vue")
     },
 
     //expense routes
@@ -194,7 +194,7 @@ const routes =[
         component: ()=> import("@/views/customer/Edit.vue")
     },
 
-    
+
     //stoke route
     {
         path:'/stoke-manage',
@@ -268,6 +268,11 @@ const routes =[
         path:'/emp',
         name:'Emp',
         component: Emp
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
+        component: () => import("@/views/Error.vue")
     },
 ]
 

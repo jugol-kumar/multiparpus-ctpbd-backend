@@ -1,12 +1,17 @@
 <template>
  <div>
-   <h1>This is home components</h1>
-   <Sumiltone/>
+   <h1 class="text-capitalize">Welcome Again <span class="text-primary fw-bold">{{ user?.full_name }}</span></h1>
  </div>
 </template>
 
-<script setup>
-import Sumiltone from "@/components/Sumiltone.vue";
+<script>
+export default {
+    data(){
+        return {
+            user: User.userInfo(),
+        }
+    }
+}
 </script>
 
 <style scoped>

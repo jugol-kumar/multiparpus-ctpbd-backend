@@ -339,14 +339,22 @@ class ProductController extends Controller
 
     public function saveProductDetails(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'categoryId' => 'required',
+            'brandId' => 'required',
+            'defaultQty' => 'required'
+        ]);
+
+
         Product::query()->create([
             'title' => $request->name,
             'buying_price ' => $request->defaultPrice,
             'description' => $request->description,
             'details' => $request->details,
-            'stock' => $request->defaultQty,
+            'stock' => $request->integer('defaultQty') ?? 0,
             'category_id' => $request->categoryId,
-            'brand_id' => $request->brandId,
+            'brand_id' => $request->integer('brandId'),
             'user_id' => 1,
         ]);
         return response()->json(['message' => 'Product updated successfully done.'], 200);
@@ -437,7 +445,7 @@ class ProductController extends Controller
 //        });
 
         return Product::query()
-            ->with(['images', 'stocks'])
+            ->with(['images', 'stocks', 'category', 'brand'])
             ->withCount('orderDetails')
             ->orderByDesc('order_details_count')
             ->take(10)

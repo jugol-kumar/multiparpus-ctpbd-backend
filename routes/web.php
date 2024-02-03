@@ -21,3 +21,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //
+
+
+
+Route::get("/storage", function (){
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return "storage linked";
+});

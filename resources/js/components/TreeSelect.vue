@@ -4,6 +4,7 @@
       :options="flattenedCategories"
       v-model="selectedCategoryIds"
       @update:modelValue="changeData"
+      class="form-control"
       label="fullName"
       :selected="modelValue"
       placeholder="Select Categories..."

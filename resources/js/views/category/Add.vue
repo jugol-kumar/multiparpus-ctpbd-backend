@@ -13,8 +13,6 @@
                         <TreeCategory v-model="from.parent"/>
                     </div>
 
-
-
                     <div class="form-group">
                         <label>Category Name</label>
                         <input type="text" class="form-control form-control-solid" v-model="from.name" placeholder="Enter category name..."/>

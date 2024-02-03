@@ -87,13 +87,14 @@
                         </table>
 
                         <div class="pos-account" v-if="cart.getSubTotal() > 0">
-                            Total Items: 
+                            Total Items:
                             <h4 class="fw-bolder">Sub Total: {{ cart.getSubTotal() }} $</h4>
                         </div>
                     </div>
                 </div>
                 <div class="card card-custom mt-5">
                     <div class="card-body">
+                        {{ error?.response?.data }}
                         <form @submit.prevent="saveOrder()">
                             <div class="form-group">
                                 <label>Select Customer</label>
@@ -106,7 +107,7 @@
                                         label="full_name"
                                         placeholder="Select Customer..."/>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label>Payment Method</label>
                                 <select class="form-control form-control-solid" v-model="order.payby">
@@ -140,10 +141,10 @@
                         <input type="text" v-model="filterBox" class="form-control form-control-solid mb-3"
                             placeholder="Search.....">
                         <div class="example-preview">
-                            <TreeCategory 
+                            <TreeCategory
                                 class="form-control form-control-solid"
                                 style="padding:0.375rem 0.75rem"
-                                v-model="selectCategory" 
+                                v-model="selectCategory"
                                 @update:modelValue="changeData" />
 
                             <div class="tab-content mt-5 show-product-overflow" id="myTabContent1">
@@ -202,7 +203,7 @@
                         <div class="col-md-6">
                             <h1 class="text-capitalize fw-bold">{{ productDetails?.product?.title }}-{{
                                 productDetails.varient?.replace(/\//g, '-')?.slice(0, -1) }}</h1>
-                            <h4>Product Sku: {{ productDetails?.sku }}</h4>    
+                            <h4>Product Sku: {{ productDetails?.sku }}</h4>
                             <p>Category: <strong>{{ productDetails?.product?.category?.name }}</strong> </p>
                             <p class="text-capitalize">Variation: {{ productDetails.varient?.replace(/\//g, '-')?.slice(0, -1) }}</p>
 
@@ -223,7 +224,7 @@
                                 <h3>Desscription</h3>
                                 <p>{{ productDetails?.product?.description }}</p>
                             </div>
-                            
+
                             <hr/>
                             <div>
                                 <h3>Desscription</h3>

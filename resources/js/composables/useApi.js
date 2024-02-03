@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:8000" //"https://ctpse.info"
+    baseURL:  "http://127.0.0.1:8000" //"https://admin.comfortwing.com"
 });
 
 export default function useAxios() {

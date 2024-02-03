@@ -109,4 +109,17 @@ class OrderController extends Controller
     {
         //
     }
+
+
+    public function changeOrderStatus(Request  $request){
+        return response()->json($request->input('status'));
+    }
+
+    public function changePaymentStatus(){
+        return dd(\request()->all());
+    }
+
+
+
+
 }

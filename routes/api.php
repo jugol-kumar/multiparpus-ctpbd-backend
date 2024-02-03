@@ -67,6 +67,13 @@ Route::apiResource('pos',       PosController::class);
 Route::apiResource('order',     OrderController::class);
 Route::get('/order-details/{id}',               [OrderController::class, 'orderDetails']);
 
+Route::get("/change-order-status", [OrderController::class, 'changeOrderStatus']);
+Route::get("/change-payment-status", [OrderController::class, 'changePaymentStatus']);
+
+
+
+
+
 Route::delete('/pos/delete-cart/{id}',          [PosController::class, 'deleteItem']);
 
 Route::get('/pos/increment-cart-product/{id}',  [PosController::class, 'incrementProductQty']);
@@ -80,20 +87,12 @@ Route::get('/product-by-category-id/{id}',      [ProductController::class, 'prod
 Route::post('/category/update', [CategoryController::class, 'updateCategory']);
 
 
-Route::post('/upload',function(Request $request){
-
-    $uploadedFiles=$request->pics;
-
-    foreach ($uploadedFiles as $file){
-        $file->store('dummy');
-
-    }
-    return response(['status'=>'success'],200);
-
-});
-
 
 Route::get('varients', [VariationController::class, 'index']);
+Route::post('create-varient', [VariationController::class, 'store']);
+
+
+
 Route::post('varient-product', [ProductController::class, 'checkVarient']);
 
 Route::post('save-product-details', [ProductController::class, 'saveProductDetails']);
@@ -150,3 +149,8 @@ Route::post('/upload-single',function(Request $request){
 
 
 Route::post('save/emp', [EmployeeController::class, 'saveEmp']);
+
+Route::get("/storage", function (){
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return "storage linked";
+});

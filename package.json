@@ -29,8 +29,6 @@
     "dependencies": {
         "@ocrv/vue-tailwind-pagination": "0.0.4",
         "@vue/compiler-sfc": "^3.3.11",
-        "devextreme": "23.2.3",
-        "devextreme-vue": "23.2.3",
         "file-upload-with-preview": "^4.1.0",
         "moment": "^2.29.1",
         "pinia": "^2.1.7",

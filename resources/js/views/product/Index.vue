@@ -1,6 +1,7 @@
 <template lang="html">
     <div>
-        <div class="card card-custom">
+        <ComponentLoader v-if="loading"/>
+        <div v-else class="card card-custom">
             <div class="card-header flex-wrap py-5">
                 <div class="card-title">
                     <h3 class="card-label">All Products
@@ -31,11 +32,11 @@
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <td>Info</td>
+                        <td width="35%">Info</td>
                         <th>Image</th>
                         <th>Category</th>
                         <th>Brand</th>
-                        <th>Status</th>
+<!--                        <th>Status</th>-->
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -62,9 +63,9 @@
                         <td>
                             <span class="text-capitalize">{{ product.brand?.title }}</span>
                         </td>
-                        <td>
-                            <span class="badge badge-warning text-white text-capitalize">{{ product.status }}</span>
-                        </td>
+<!--                        <td>-->
+<!--                            <span class="badge badge-warning text-white text-capitalize">{{ product.status }}</span>-->
+<!--                        </td>-->
                         <td>
                             <router-link :to="{name:'ModifyProduct', params:{id:product.id}}" class="btn btn-clean btn-primary" title="Edit details">
                                 Setup Product
@@ -76,6 +77,7 @@
                 <!--end: Datatable-->
             </div>
         </div>
+
         <div class="modal fade" id="exampleModalLong"
              data-backdrop="static" tabindex="-1" role="dialog"
              aria-labelledby="staticBackdrop"
@@ -97,7 +99,7 @@
                     <div class="modal-body">
                         <form @submit.prevent="saveProductDetails">
                             <div class="form-row">
-                                <div class="col-md-4 form-group"> 
+                                <div class="col-md-4 form-group">
                                     <label for="productname">Product Name</label>
                                     <input type="text"
                                            id="productname"
@@ -130,7 +132,9 @@
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Brand</label>
-                                    <v-select v-model="brandId" :reduce="brand => brand.id" :options="brands"
+                                    <v-select v-model="brandId"
+                                              class="form-control"
+                                              :reduce="brand => brand.id" :options="brands"
                                               label="title" placeholder="Select Brand..."/>
                                 </div>
                             </div>
@@ -145,7 +149,7 @@
 
                             <div class="form-group">
                                 <label>Full Details</label>
-                               <Editor v-model="details" height="400px" isMultiline/>
+                                <SummernoteEditor v-model="details"/>
                             </div>
                         </form>
                     </div>
@@ -157,13 +161,15 @@
 
 <script>
 
-import Editor from "@/components/Editor.vue";
+import SummernoteEditor from 'vue3-summernote-editor';
 import TreeCategory from "@/components/TreeCategory.vue";
+import ComponentLoader from "@/components/ComponentLoader.vue";
 
 export default {
     name: "Index",
     components:{
-        Editor,
+        ComponentLoader,
+        SummernoteEditor,
         TreeCategory,
     },
     data() {
@@ -181,10 +187,12 @@ export default {
             categoryId: null,
             brandId: null,
 
+            loading:false,
         }
     },
     methods: {
         allProducts() {
+            this.loading = true
             this.$axios.get('api/product-with-variations')
                 .then(res => {
                     this.products = res.data
@@ -196,10 +204,11 @@ export default {
                         title: err.response.statusText
                     })
                 })
+                .finally(() => this.loading = false);
+
         },
         showSingleProduct(id) {
-
-
+            this.loading = true
             this.$axios.get('/api/product/' + id)
                 .then(res => {
                     $('#exampleModal').modal('show')
@@ -211,6 +220,7 @@ export default {
                         title: err.response.statusText
                     })
                 })
+                .finally(() => this.loading = false);
 
         },
         deleteProduct(id) {
@@ -224,6 +234,8 @@ export default {
                 showCancelButton: true,
             }).then((result) => {
                 if (result.value) {
+
+                    this.loading = true
                     this.$axios.delete('/api/product/' + id)
                         .then(res => {
                             Toast.fire({
@@ -238,6 +250,7 @@ export default {
                                 title: err.response.statusText
                             })
                         })
+                        .finally(() => this.loading = false);
                 }
             }).catch(() => {
                 Swal.fire({
@@ -250,6 +263,8 @@ export default {
 
 
         saveProductDetails(){
+
+            this.loading = true
             const formData = new FormData();
             formData.append(`name`, this.productName);
             formData.append(`defaultPrice`, this.defaultPrice);
@@ -269,8 +284,12 @@ export default {
                 this.allProducts();
             })
             .catch(err => {
-                console.log(err)
+                Toast.fire({
+                    icon: 'error',
+                    title: err.response.data.message
+                })
             })
+                .finally(() => this.loading = false);
         },
 
 

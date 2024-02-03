@@ -9,12 +9,12 @@
                     </div>
                 </div>
 
-                <div class="card cursor-pointer" :class="{ 'bg-primary text-white fw-bolder': currentTab === 'variants' }"
-                    @click="setActiveTab('variants')">
-                    <div class="card-body p-4">
-                        Product Variants
-                    </div>
-                </div>
+<!--                <div class="card cursor-pointer" :class="{ 'bg-primary text-white fw-bolder': currentTab === 'variants' }"-->
+<!--                    @click="setActiveTab('variants')">-->
+<!--                    <div class="card-body p-4">-->
+<!--                        Product Variants-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
             <div class="col-md-9">
                 <div class="card" v-if="currentTab === 'details'">
@@ -28,7 +28,7 @@
                                 <TreeSelect v-model="settings.navCats"/>
                             </div>
                             <div class="col-md form-group">
-                                <label for="dPrice">Home Cats</label>
+                                <label>Home Cats</label>
                                 <TreeSelect v-model="settings.homeCats"/>
                             </div>
                         </div>
@@ -47,7 +47,6 @@ import useApi from "@/composables/useApi.js"
 import TreeSelect from "@/components/TreeSelect.vue";
 
 const { sendRequest } = useApi();
-
 
 const settings = ref({
     navCats:[],
@@ -77,9 +76,12 @@ onMounted(async () => {
         method: 'get',
         url: '/api/category',
     });
+
+    Toast.fire({
+        icon: 'success',
+        title: "Setting Update Success..."
+    });
     categories.value = responseData;
-
-
     getSettings();
 });
 

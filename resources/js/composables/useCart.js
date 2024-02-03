@@ -1,10 +1,8 @@
-import LocalStore from 'devextreme/data/local_store';
 import { ref, onMounted } from 'vue';
 
 
 export default function useCart() {
     let cart = ref([]);
-
 
     const addToCart = async (product) => {
         const index = cart.value.findIndex(item => {
