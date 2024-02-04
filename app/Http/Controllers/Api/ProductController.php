@@ -12,6 +12,7 @@ use App\Models\ProductVariantPrice;
 use App\Models\User;
 use App\Models\Variation;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -23,8 +24,6 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        return Product::query()->with(['product_variants', 'productVariationOptions'])->get();
-
         $title = $request->title;
         $variant = $request->variant;
         $price_from = $request->price_from;
@@ -32,32 +31,34 @@ class ProductController extends Controller
         $date = $request->date;
 
         $vp = [$price_from, $price_to, $variant];
-        $product_variants = ProductVariant::all();
 
-        $products = Product::with(['product_variants', 'product_variants'])
+        $products = Product::query()
+            ->with(['images', 'stocks', 'category', 'brand'])
+            ->withCount('orderDetails')
+            ->orderByDesc('order_details_count')
             ->when($title, function ($query, $title) {
                 return $query->where('title', 'like', '%' . $title . '%');
             })
             ->when($date, function ($query, $date) {
                 return $query->whereDate('created_at', $date);
-            })->whereHas('prices', function ($q) use ($vp) {
-                $price_from = $vp[0];
-                $price_to = $vp[1];
-                $variant = $vp[2];
+            })->when($price_from || $price_to, function ($q, $vp){
+                  $q->whereHas('prices', function ($q) use ($vp) {
+                      $price_from = $vp[0];
+                      $price_to = $vp[1];
+                      $variant = $vp[2];
 
-                $q->when($price_from, function ($query, $price_from) {
-                    return $query->where('price', '>=', intval($price_from));
-                })->when($price_to, function ($query, $price_to) {
-                    return $query->where('price', '<=', intval($price_to));
-                })->when($variant, function ($query, $variant) {
-                    return $query->whereRaw("(product_variant_1 = $variant or product_variant_2 = $variant or product_variant_3 = $variant)");
-                });
+                      $q->when($price_from, function ($query, $price_from) {
+                          return $query->where('price', '>=', intval($price_from));
+                      })->when($price_to, function ($query, $price_to) {
+                          return $query->where('price', '<=', intval($price_to));
+                      })->when($variant, function ($query, $variant) {
+                          return $query->whereRaw("(product_variant_1 = $variant or product_variant_2 = $variant or product_variant_3 = $variant)");
+                      });
+                  });
+            })->paginate(20);
 
-            })->get(); //->paginate(2);
-        return $products;
 
-
-        return response()->json(Product::with('category')->with('supplier')->get());
+        return response()->json($products, 200);
     }
 
     public function store(Request $request)
@@ -558,5 +559,22 @@ class ProductController extends Controller
     }
 
 
+    public function deleteProductImage($id){
+        $image = ProductImage::findOrFail($id);
+
+        if(Storage::disk('public')->exists("uploads/$image->image")){
+            Storage::disk('public')->delete("uploads/$image->image");
+        }
+
+        $image->delete();
+
+        return response()->json(['message' => 'Product Image Deleted.....'], 200);
+    }
+
+    public function deleteStoke($id){
+        $stoke = ProductStock::findOrFail($id);
+        $stoke->delete();
+        return response()->json(['message' => 'Product Stoke Deleted.....'], 200);
+    }
 
 }

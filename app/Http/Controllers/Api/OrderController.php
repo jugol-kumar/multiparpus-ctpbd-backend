@@ -14,13 +14,17 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
     public function index(Request $request)
     {
         $user = $request->user();
-        $orders = Order::query()->with(['orderdetails', 'orderdetails.product', 'orderdetails.stoke'])->where('user_id', $user->id)->paginate(10);
+        $orders = Order::query()->with(['orderdetails', 'orderdetails.product', 'orderdetails.stoke'])
+            ->where('user_id', $user->id)
+            ->paginate(10);
+
         return response()->json([
             'message' => 'users all orders',
             'data' => $orders
@@ -112,7 +116,15 @@ class OrderController extends Controller
 
 
     public function changeOrderStatus(Request  $request){
-        return response()->json($request->input('status'));
+        $order = Order::findOrFail($request->id);
+        if($request->input('type') == 'payment'){
+            $order->payment_status = Str::lower($request->input('status'));
+        }else{
+            $order->order_status = Str::lower($request->input('status'));
+        }
+        $order->update();
+
+        return response()->json(['message' => 'Status Updated...']);
     }
 
     public function changePaymentStatus(){

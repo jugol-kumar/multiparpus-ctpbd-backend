@@ -37,7 +37,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(emp, i) in employes" :key="`customer-${i}`">
+                    <tr v-for="(emp, i) in employes?.data" :key="`customer-${i}`">
                         <td>{{ i+1 }}</td>
                         <td>
                             <span class="symbol-label">
@@ -76,22 +76,26 @@
                     </tbody>
                 </table>
                 <!--end: Datatable-->
+                <Pagination  @some-event="allCustomer" :links="employes.links" :from="employes.from" :to="employes.to" :total="employes.total" :notShowNumber="false"/>
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Pagination from "@/components/Pagination.vue";
 export default {
     name: "ManageEmployee",
+    components: {Pagination},
     data() {
         return {
             employes : {}
         }
     },
     methods: {
-        allCustomer() {
-            this.$axios.get('api/customer')
+        allCustomer(path) {
+            this.$axios.get(path ?? 'api/customer')
                 .then(res => {
                     this.employes = res.data
                     // Toast.fire({

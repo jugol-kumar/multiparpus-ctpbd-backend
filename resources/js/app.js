@@ -10,6 +10,7 @@ import axios from "axios";
 import moment from 'moment'
 
 
+
 import 'summernote/dist/summernote-bs4.css'
 import 'summernote/dist/summernote-bs4.min.js'
 
@@ -21,7 +22,7 @@ const Toast = Swal.mixin({
     timer:5000,
     icon:true,
 })
-
+const isProduct = false;
 
 import vSelect from 'vue-select'
 import Uploader from 'vue-media-upload'
@@ -34,13 +35,14 @@ app.component('Uploader', Uploader);
 
 window.Toast = Toast
 window.User = User
-app.config.globalProperties.$APP_URL =  "http://127.0.0.1:8000" //"https://admin.comfortwing.com"
 
+
+app.config.globalProperties.$APP_URL = import.meta.env.APP_URL
 axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
 const instance = axios.create({
     withCredentials: true,
     withXSRFToken: true,
-    baseURL: "http://127.0.0.1:8000" //"https://admin.comfortwing.com"
+    baseURL: import.meta.env.APP_URL
 });
 app.config.globalProperties.$axios = instance;
 

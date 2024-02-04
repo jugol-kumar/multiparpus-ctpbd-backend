@@ -195,7 +195,7 @@
                         <form>
                             <!--begin::Header-->
                             <div class="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top"
-                                style="background-image: url('./backend/assets/media/misc/bg-1.jpg')">
+                                style="background-image: url('./backend/assets/img/profile-bg.jpg')">
                                 <div class="menu-content d-flex align-items-center px-3">
                                     <!--begin::Avatar-->
                                     <div class="symbol symbol-50px me-2">

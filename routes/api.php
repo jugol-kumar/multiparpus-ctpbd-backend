@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\BusinessSettingController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\MonthController;
@@ -41,6 +42,10 @@ Route::group([
     Route::post('payload',  [AuthController::class, 'payload']);
     Route::post('register', [AuthController::class, 'register']);
 });
+
+
+Route::get('dashboard-report', [DashboardController::class, 'index']);
+
 
 Route::apiResource('employee',  EmployeeController::class);
 
@@ -99,7 +104,8 @@ Route::post('save-product-details', [ProductController::class, 'saveProductDetai
 Route::post('save-product-variations', [ProductController::class, 'saveProductVariations']);
 Route::post('save-product-images', [ProductController::class, 'saveProductImages']);
 Route::get('product-with-variations', [ProductController::class, 'variationsProducts']);
-
+Route::delete('delete-product-image/{id}', [ProductController::class, 'deleteProductImage']);
+Route::delete('/delete-product-stoke/{id}', [ProductController::class, 'deleteStoke']);
 
 
 Route::get('/admin/pos-products', [ProductController::class, 'posProducts']);
@@ -110,6 +116,8 @@ Route::post("/admin/save-setting", [BusinessSettingController::class, 'updateSet
 Route::get("/admin/get-setting", [BusinessSettingController::class, 'index']);
 
 Route::post('login', [CustomerController::class, 'loginCustomer']);
+
+
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('user', function (Request $request){

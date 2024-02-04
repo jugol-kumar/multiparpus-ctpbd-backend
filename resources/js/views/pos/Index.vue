@@ -157,9 +157,8 @@
                                                     <div class="card-image">
                                                         <img :src="`${product?.product?.images[0]?.url}`" />
                                                     </div>
-                                                    <div class="card-heading">
-                                                        {{ product?.product?.title?.slice(0, 10) }} - {{
-                                                            product.varient?.replace(/\//g, '-')?.slice(0, -1) }}...
+                                                    <div class="card-heading fw-bold">
+                                                        {{ product?.product?.title }}...
                                                     </div>
                                                     <div class="card-text">
                                                         {{ product?.price }} $
@@ -275,7 +274,7 @@ const allProducts = async () => {
 
 
 const getAllCustomers = async () => {
-    const data = await sendRequest("api/customer")
+    const data = await sendRequest("api/customer?onlyData")
     if (data) {
         customers.value = data
     }

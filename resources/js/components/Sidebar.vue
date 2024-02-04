@@ -4,9 +4,6 @@
         <div class="brand flex-column-auto" id="kt_brand">
             <!--begin::Logo-->
             <RouterLink to="/dashboard" class="brand-logo">
-
-<!--                <img src="http://127.0.0.1:8000/category/category1342.png" alt="">-->
-
                 <img alt="Logo" src="../assets/logo.png" class="w-100"/>
             </RouterLink>
             <!--end::Logo-->

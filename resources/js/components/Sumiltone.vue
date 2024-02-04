@@ -3,7 +3,6 @@
 </template>
 <script>
 import SummernoteEditor from 'vue3-summernote-editor';
-
 export default {
     components: {SummernoteEditor},
     data() {

@@ -15,9 +15,19 @@ use Intervention\Image\Facades\Image;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $customers = User::query()->with(['addresses', 'addresses.orderArea'])->where('role', 'customer')->get();
+        $request->only(['onlyData']);
+
+        $query = User::query()->with(['addresses', 'addresses.orderArea'])
+            ->where('role', 'customer');
+
+
+        if($request->has('onlyData')){
+            $customers = $query->get();
+        }else{
+            $customers = $query->paginate(20);
+        }
         return response()->json($customers);
     }
 

@@ -105,6 +105,8 @@
                     </tbody>
                 </table>
                 <!--end: Datatable-->
+                <Pagination  @some-event="allOrder" :links="orders?.orders?.links" :from="orders?.orders?.from" :to="orders?.orders?.to" :total="orders?.orders?.total" :notShowNumber="false"/>
+
             </div>
         </div>
 
@@ -145,22 +147,24 @@
                                         </div>
                                         <div class="invoice-date-wrapper">
                                             <p class="invoice-date-title text-capitalize">Order Status: <span
-                                                    class="badge bg-info ms-1">Shipped</span></p>
+                                                    class="badge bg-info ms-1">{{ orderDetails?.order_status }}</span></p>
                                         </div>
                                         <div class="invoice-date-wrapper">
                                             <p class="invoice-date-title text-capitalize">Payment Status: <span
-                                                    class="badge bg-info ms-1">Pending</span></p>
+                                                    class="badge bg-info ms-1">{{ orderDetails?.payment_status }}</span></p>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-column gap-2">
                                             <v-select :options="orderStatusList"
                                                       v-model="orderStatus"
+                                                      class="form-control"
                                                       @update:modelValue="changeOrderStatus"
                                                       label="name"
                                                       placeholder="Select Order Status..."/>
 
                                         <v-select :options="paymentStatusList"
                                                   v-model="paymentStatus"
+                                                  class="form-control"
                                                   @update:modelValue="changePaymentStatus"
                                                   :reduse="cat => cat?.name?.tolowerCase()"
                                                   label="name"
@@ -188,8 +192,7 @@
                                         :key="`single-details-item-${index}`">
                                         <td class="py-1">
                                             <a href="#" class="text-info text-capitalize">
-                                                {{ item?.product?.title }}-
-                                                {{ item?.stoke?.varient?.replace(/\//g, '-').slice(0, -1) }}
+                                                {{ item?.product?.title }}
                                             </a>
                                         </td>
                                         <td class="py-1">
@@ -256,9 +259,11 @@
 
 <script>
 import {ref} from "vue";
+import Pagination from "@/components/Pagination.vue";
 
 export default {
     name: "MangeOrder",
+    components: {Pagination},
     data() {
         return {
             orders: {},
@@ -283,8 +288,8 @@ export default {
         }
     },
     methods: {
-        allOrder() {
-            this.$axios.get('/api/admin/orders', {
+        allOrder(path) {
+            this.$axios.get(path ?? '/api/admin/orders', {
                 headers: {
                     'Authorization': `Bearer ${this.user?.token}`
                 }
@@ -307,13 +312,18 @@ export default {
         },
 
         changeOrderStatus(event){
-            this.$axios.get('/api/change-payment-status', {
+            this.$axios.get(`/api/change-order-status?status=${event.name}&id=${this.orderDetails?.id}&type=order`, {
                 headers: {
                     'Authorization': `Bearer ${this.user?.token}`
                 }
             })
             .then(res => {
-                console.log(res)
+                Toast.fire({
+                    icon: 'success',
+                    title: "Status Updated..."
+                });
+                $("#exampleModal").modal('hide');
+                this.allOrder();
             })
             .catch(err => {
                 err.response.data.errors;
@@ -324,13 +334,18 @@ export default {
             });
         },
         changePaymentStatus(event){
-            this.$axios.get('/api/change-order-status', {
+            this.$axios.get(`/api/change-order-status?status=${event.name}&id=${this.orderDetails?.id}&type=payment`, {
                 headers: {
                     'Authorization': `Bearer ${this.user?.token}`
-                }
+                },
             })
             .then(res => {
-                console.log(res)
+                Toast.fire({
+                    icon: 'success',
+                    title: "Status Updated..."
+                });
+                $("#exampleModal").modal('hide');
+                this.allOrder();
             })
             .catch(err => {
                 err.response.data.errors;

@@ -59,8 +59,8 @@ export default {
     data() {
         return {
             data: {
-                email: "admin@admin.com",
-                password: "12345678",
+                email: null,
+                password: null,
                 isLoading: false,
             },
         }
