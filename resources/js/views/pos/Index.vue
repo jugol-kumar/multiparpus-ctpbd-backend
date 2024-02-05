@@ -147,7 +147,8 @@
                                 v-model="selectCategory"
                                 @update:modelValue="changeData" />
 
-                            <div class="tab-content mt-5 show-product-overflow" id="myTabContent1">
+                            <ComponentLoader v-if="loading" style="min-height:40vh"/>
+                            <div v-else class="tab-content mt-5 show-product-overflow" id="myTabContent1">
                                 <div class="tab-pane fade show active" id="home-1" role="tabpanel" aria-labelledby="home-tab-1">
                                     <div class="row match-height px-1">
                                         <div class="col-md-4 mt-2 px-1" v-for="(product, i) in filteredProducts"
@@ -243,10 +244,10 @@ import { ref, onMounted, watch, reactive, toRefs, computed } from 'vue';
 import TreeCategory from "@/components/TreeCategory.vue";
 import useApi from "@/composables/useApi.js";
 import useCart from "@/composables/useCart.js";
+import ComponentLoader from "@/components/ComponentLoader.vue";
 
 const { sendRequest, loading, error } = useApi();
 const cart = useCart();
-
 const order = ref({
     customer: '',
     payby: '',

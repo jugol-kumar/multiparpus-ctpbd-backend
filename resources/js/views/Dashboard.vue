@@ -118,7 +118,7 @@
                             </span>
                             {{ dashboardData?.stokeProducts }} Products
                         </span>
-                        <span class="text-nowrap text-xs text-muted">Stoke Available</span>
+                        <span class="text-nowrap text-xs text-muted">Stoke Up to 5 Available</span>
                     </div>
                 </div>
             </div>

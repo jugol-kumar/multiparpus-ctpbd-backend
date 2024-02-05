@@ -119,6 +119,12 @@ Route::post('login', [CustomerController::class, 'loginCustomer']);
 
 
 
+
+Route::get('/all-areas', [OrderAreaController::class, 'getAreas']);
+Route::post('/save-new-address', [OrderAreaController::class, 'saveAddress']);
+
+
+
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('user', function (Request $request){
         return $request->user();
@@ -139,7 +145,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::get('/admin/areas', [OrderAreaController::class, 'index']);
     Route::post('/admin/areas-save', [OrderAreaController::class, 'store']);
-
 
 
 

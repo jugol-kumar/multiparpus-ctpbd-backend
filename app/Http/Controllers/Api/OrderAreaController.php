@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\OrderArea;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\URL;
 
@@ -108,4 +110,32 @@ class OrderAreaController extends Controller
         $orderArea->delete();
         return response()->json(['message' => 'Area Deleted...']);
     }
+
+
+    public function getAreas(){
+        $areas = OrderArea::all(['id', 'area_name']);
+        return response()->json($areas);
+    }
+
+    public function saveAddress(){
+
+        $data = Request::validate([
+            'title' => 'required',
+            'email' => ['required', 'email'],
+            'phone' => ['required'],
+            'area' => 'required',
+            'address' => ['required']
+        ]);
+
+        $data['order_area_id'] = Request::input('area'); //.",".Request::input('state')
+        $data['user_id'] = Request::input('user_id');
+        $data['set_default'] = filled(Request::input('isPrimary'));
+
+        Address::create($data);
+        return response()->json(['message' => 'Area Deleted...']);
+    }
+
+
+
+
 }

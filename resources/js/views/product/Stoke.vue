@@ -1,6 +1,8 @@
 <template>
     <div>
-        <div class="card card-custom">
+        <ComponentLoader v-if="loading"/>
+
+        <div v-else class="card card-custom">
             <div class="card-header flex-wrap py-5">
                 <div class="card-title">
                     <h3 class="card-label">Stoke Management
@@ -116,9 +118,10 @@ import { onMounted, ref } from "vue";
 import useApi from "@/composables/useApi.js"
 import Pagination from "@/components/Pagination.vue"
 const user = User.userInfo();
+import ComponentLoader from "@/components/ComponentLoader.vue";
 
 const products = ref([]);
-const {sendRequest}= useApi();
+const {sendRequest, loading}= useApi();
 const stokeInfo = ref({})
 const qty = ref(null)
 

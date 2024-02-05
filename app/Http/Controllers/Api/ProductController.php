@@ -32,8 +32,12 @@ class ProductController extends Controller
 
         $vp = [$price_from, $price_to, $variant];
 
+
+
+
         $products = Product::query()
-            ->with(['images', 'stocks', 'category', 'brand'])
+            ->select(['id', 'title', 'category_id', 'brand_id'])
+            ->with(['images:id,product_id,image', 'stocks:id,product_id,varient,price', 'category:id,name', 'brand:id,title'])
             ->withCount('orderDetails')
             ->orderByDesc('order_details_count')
             ->when($title, function ($query, $title) {
@@ -445,22 +449,18 @@ class ProductController extends Controller
 //            return $product;
 //        });
 
+
         return Product::query()
-            ->with(['images', 'stocks', 'category', 'brand'])
+            ->with(['images:id,product_id,image', 'stocks:id,product_id,varient,price', 'category'])
             ->withCount('orderDetails')
             ->orderByDesc('order_details_count')
             ->take(10)
-            ->get()->map(function ($product) {
-                $product->images->each(function ($image) {
-                    $image->url = Storage::url("uploads/$image->image");
-                });
-                return $product;
-            });
+            ->get();
     }
 
     public function stokeProducts()
     {
-        $stokes = ProductStock::query()->with(['product.category'])->paginate(20);
+        $stokes = ProductStock::query()->with(['product:id,title', 'product.category:id,product_id,title'])->paginate(20);
         return response()->json($stokes, 200);
     }
 
@@ -494,7 +494,7 @@ class ProductController extends Controller
     public function filterProduct(Request $request){
 
         $products = Product::query()
-            ->with(['images', 'stocks', 'category'])
+            ->with(['images:id,product_id,image', 'stocks:id,product_id,varient,price', 'category'])
             ->when(\Illuminate\Support\Facades\Request::input('category'), function ($query, $search){
                 $query->whereHas('category', function ($query)use($search){
                     $query->where('id', $search);
@@ -520,17 +520,12 @@ class ProductController extends Controller
             ->when(\Illuminate\Support\Facades\Request::input('search'), function ($query, $search){
                 $query->where('title', 'like', "%{$search}%");
             })
+            ->select(['id', 'title'])
             ->latest()
             ->paginate(\Illuminate\Support\Facades\Request::input('perPage') ?? 30)
             ->withQueryString()
             ->through(fn($product) => $product);
 
-        $products->each(function($product) {
-            $product->images->map(function($image) {
-                $image->url = Storage::url("uploads/$image->image");
-                return $image;
-            });
-        });
         return response()->json($products, 200);
 
 
@@ -574,6 +569,7 @@ class ProductController extends Controller
     public function deleteStoke($id){
         $stoke = ProductStock::findOrFail($id);
         $stoke->delete();
+
         return response()->json(['message' => 'Product Stoke Deleted.....'], 200);
     }
 
