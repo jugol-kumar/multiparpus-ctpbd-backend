@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\OrderAreaController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\QuestionController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SalaryController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\VariationController;
@@ -70,7 +72,7 @@ Route::apiResource('customer',  CustomerController::class);
 Route::apiResource('pos',       PosController::class);
 
 Route::apiResource('order',     OrderController::class);
-Route::get('/order-details/{id}',               [OrderController::class, 'orderDetails']);
+Route::get('/order-details/{id}', [OrderController::class, 'orderDetails']);
 
 Route::get("/change-order-status", [OrderController::class, 'changeOrderStatus']);
 Route::get("/change-payment-status", [OrderController::class, 'changePaymentStatus']);
@@ -118,11 +120,14 @@ Route::get("/admin/get-setting", [BusinessSettingController::class, 'index']);
 Route::post('login', [CustomerController::class, 'loginCustomer']);
 
 
-
-
 Route::get('/all-areas', [OrderAreaController::class, 'getAreas']);
 Route::post('/save-new-address', [OrderAreaController::class, 'saveAddress']);
 
+
+//review system routes
+Route::apiResource('/review', ReviewController::class);
+//question system routes
+Route::apiResource('/question', QuestionController::class);
 
 
 Route::middleware('auth:sanctum')->group(function(){

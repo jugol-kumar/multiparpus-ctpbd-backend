@@ -256,6 +256,20 @@ const routes =[
         component: FileUpload
     },
 
+    // product reviews module
+    {
+        path:'/product-reviews',
+        name:'Reviews',
+        component: ()=>import("@/views/Review/Index.vue")
+    },
+
+    // product reviews module
+    {
+        path:'/product-questions',
+        name:'Question',
+        component: ()=>import("@/views/Question/Index.vue")
+    },
+
     // settings routes
     {
         path:'/setting',

@@ -169,7 +169,6 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             <VueApexCharts type="area" height="350" :options="chartOption" :series="series"/>
