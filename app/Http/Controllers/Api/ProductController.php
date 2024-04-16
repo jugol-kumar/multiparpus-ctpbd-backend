@@ -39,9 +39,13 @@ class ProductController extends Controller
             ->select(['id', 'title', 'category_id', 'brand_id'])
             ->with(['images:id,product_id,image', 'stocks:id,product_id,varient,price', 'category:id,name', 'brand:id,title'])
             ->withCount('orderDetails')
-            ->orderByDesc('order_details_count')
-            ->when($title, function ($query, $title) {
+//            ->orderByDesc('order_details_count')
+            ->latest()
+            ->when($request->input('search'), function ($query, $title) {
                 return $query->where('title', 'like', '%' . $title . '%');
+            })
+            ->when($request->input('category'), function ($query, $search){
+                $query->whereIn('category_id', [$search]);
             })
             ->when($date, function ($query, $date) {
                 return $query->whereDate('created_at', $date);
@@ -59,7 +63,8 @@ class ProductController extends Controller
                           return $query->whereRaw("(product_variant_1 = $variant or product_variant_2 = $variant or product_variant_3 = $variant)");
                       });
                   });
-            })->paginate(20);
+            })
+            ->paginate(20);
 
 
         return response()->json($products, 200);
@@ -93,15 +98,15 @@ class ProductController extends Controller
     {
         $product = Product::query()->with(['stocks', 'category', 'brand', 'images'])->findOrFail($id);
 
-        $varients = json_decode($product->variationOptions, true);
+        $variants = json_decode($product->variationOptions, true);
 
         $attributes = array_map(function($item){
             $item["option"] = Variation::select('name', 'id')->findOrFail($item["option"]);
             $item["selectVariant"] = $item['tags'][0];
             return $item;
-        }, $varients ?? []);
+        }, $variants ?? []);
 
-        $product->attributes = $attributes ?? [];
+        $product->attributes = $attributes;
 
         $product->showPrice = showPrices($product);
         $product->currency = get_setting('currency');
@@ -182,9 +187,6 @@ class ProductController extends Controller
 
     public function checkVarient(Request $request)
     {
-
-
-
         $variationOptions = [];
         foreach ($request->variations as $key => $variation) {
             $variationMake = [];
@@ -344,26 +346,30 @@ class ProductController extends Controller
 
     public function saveProductDetails(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
+        $data  = $request->validate([
+            'productName' => 'required',
             'categoryId' => 'required',
-            'brandId' => 'required',
-            'defaultQty' => 'required'
+            'brandId' => 'nullable',
+            'defaultStoke' => 'required',
+            'defaultPrice' => 'required'
         ]);
 
-
-        Product::query()->create([
-            'title' => $request->name,
-            'buying_price ' => $request->defaultPrice,
+        Product::create([
+            'title' => $request->productName,
+            'price' => $request->defaultPrice,
             'description' => $request->description,
+            'discount' => 0,
+            'sku' => rand(111111, 999999) ,//getRandomStringRand(),
             'details' => $request->details,
-            'stock' => $request->integer('defaultQty') ?? 0,
+            'stock' => $request->integer('defaultStoke') ?? 0,
             'category_id' => $request->categoryId,
             'brand_id' => $request->integer('brandId'),
             'user_id' => 1,
         ]);
+
         return response()->json(['message' => 'Product updated successfully done.'], 200);
     }
+
 
     public function saveProductVariations(Request $request)
     {
@@ -376,6 +382,7 @@ class ProductController extends Controller
         $array =  collect($request->variations)->map(function($item){
             $item['product_id'] = 1;
             $item['varient'] = $item['title'];
+            $item['sku'] =  $item['sku'] ?? rand(111111, 999999); //getRandomStringRand();
             $item['qty'] = $item['stock'];
             return $item;
         });
@@ -461,6 +468,15 @@ class ProductController extends Controller
     public function stokeProducts()
     {
         $stokes = ProductStock::query()->with(['product:id,title', 'product.category:id,product_id,title'])->paginate(20);
+        return response()->json($stokes, 200);
+    }
+
+    public function lowStokeProducts()
+    {
+        $stokes = ProductStock::query()
+            ->with(['product:id,title', 'product.category:id,product_id,title'])
+            ->where('qty', '<=', 10)
+            ->paginate(20);
         return response()->json($stokes, 200);
     }
 

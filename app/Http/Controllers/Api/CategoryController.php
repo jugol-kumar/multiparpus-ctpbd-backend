@@ -115,11 +115,8 @@ class CategoryController extends Controller
 
 
     public function navCategories(){
-
-        $ids = collect(json_decode(get_setting('navCats')))->pluck('id');
+        $ids = json_decode(get_setting('navCats'));
         $categories = Category::query()->with(['childrenRecursive'])->whereIn('id', $ids)->get();
-
-
         return response()->json($categories);
     }
 
@@ -128,7 +125,7 @@ class CategoryController extends Controller
 
     public function homeCategories()
     {
-        $categories = collect(json_decode(get_setting('navCats')))->pluck('id');
+        $categories = json_decode(get_setting('homeCats'));
         $products = Category::query()->with(['products', 'products.images', 'products.stocks'])->whereIn('id', $categories)->get();
 
         $products->each(function ($product){

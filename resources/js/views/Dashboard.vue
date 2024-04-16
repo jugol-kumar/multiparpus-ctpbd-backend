@@ -1,5 +1,79 @@
 <template>
 
+    <div class="row mb-6 match-height">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="text-capitalize">monthly sales target</h2>
+                    <p>Target In this month: <span class="badge badge-primary">{{ moment().format('MMMM') }}</span></p>
+                    <div>
+                        <h2 class="fs-1 font-weight-bolder">Target: <span contenteditable="true" @blur="setTarget">{{ target }}</span> ৳</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row  match-height h-100">
+                <div class="col-md-6">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Sales This Month</span>
+                                    <span class="h3 font-bold mb-0">{{ dashboardData?.thisMonthSeals }} ৳</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                                        <span class="svg-icon svg-icon-success svg-icon-4x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Shopping/Sale2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <defs/>
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24"/>
+                                                    <polygon fill="#000000" opacity="0.3" points="12 20.0218549 8.47346039 21.7286168 6.86905972 18.1543453 3.07048824 17.1949849 4.13894342 13.4256452 1.84573388 10.2490577 5.08710286 8.04836581 5.3722735 4.14091196 9.2698837 4.53859595 12 1.72861679 14.7301163 4.53859595 18.6277265 4.14091196 18.9128971 8.04836581 22.1542661 10.2490577 19.8610566 13.4256452 20.9295118 17.1949849 17.1309403 18.1543453 15.5265396 21.7286168"/>
+                                                    <polygon fill="#000000" points="14.0890818 8.60255815 8.36079737 14.7014391 9.70868621 16.049328 15.4369707 9.950447"/>
+                                                    <path d="M10.8543431,9.1753866 C10.8543431,10.1252593 10.085524,10.8938719 9.13585777,10.8938719 C8.18793881,10.8938719 7.41737243,10.1252593 7.41737243,9.1753866 C7.41737243,8.22551387 8.18793881,7.45690126 9.13585777,7.45690126 C10.085524,7.45690126 10.8543431,8.22551387 10.8543431,9.1753866" fill="#000000" opacity="0.3"/>
+                                                    <path d="M14.8641422,16.6221564 C13.9162233,16.6221564 13.1456569,15.8535438 13.1456569,14.9036711 C13.1456569,13.9520555 13.9162233,13.1851857 14.8641422,13.1851857 C15.8138085,13.1851857 16.5826276,13.9520555 16.5826276,14.9036711 C16.5826276,15.8535438 15.8138085,16.6221564 14.8641422,16.6221564 Z" fill="#000000" opacity="0.3"/>
+                                                </g>
+                                            </svg><!--end::Svg Icon-->
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Remaining Sales Target</span>
+                                    <span class="h3 font-bold mb-0">{{ parseInt(target) - parseInt(dashboardData?.thisMonthSeals) }} ৳</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                                        <span class="svg-icon svg-icon-warning svg-icon-4x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Shopping/Wallet3.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <defs/>
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24"/>
+                                                <path d="M4,4 L20,4 C21.1045695,4 22,4.8954305 22,6 L22,18 C22,19.1045695 21.1045695,20 20,20 L4,20 C2.8954305,20 2,19.1045695 2,18 L2,6 C2,4.8954305 2.8954305,4 4,4 Z" fill="#000000" opacity="0.3"/>
+                                                <path d="M18.5,11 L5.5,11 C4.67157288,11 4,11.6715729 4,12.5 L4,13 L8.58578644,13 C8.85100293,13 9.10535684,13.1053568 9.29289322,13.2928932 L10.2928932,14.2928932 C10.7456461,14.7456461 11.3597108,15 12,15 C12.6402892,15 13.2543539,14.7456461 13.7071068,14.2928932 L14.7071068,13.2928932 C14.8946432,13.1053568 15.1489971,13 15.4142136,13 L20,13 L20,12.5 C20,11.6715729 19.3284271,11 18.5,11 Z" fill="#000000"/>
+                                                <path d="M5.5,6 C4.67157288,6 4,6.67157288 4,7.5 L4,8 L20,8 L20,7.5 C20,6.67157288 19.3284271,6 18.5,6 L5.5,6 Z" fill="#000000"/>
+                                            </g>
+                                            </svg><!--end::Svg Icon-->
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="row g-6 mb-6">
         <div class="col-xl-3 col-sm-6 col-12 ">
             <div class="card shadow border-0">
@@ -133,7 +207,6 @@
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
-
                                 <span class="svg-icon svg-icon-danger svg-icon-4x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Devices/CPU1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect x="0" y="0" width="24" height="24"/>
@@ -169,6 +242,7 @@
             </div>
         </div>
     </div>
+
     <div class="card">
         <div class="card-body">
             <VueApexCharts type="area" height="350" :options="chartOption" :series="series"/>
@@ -180,6 +254,7 @@
     import { onMounted, ref } from "vue";
     import VueApexCharts from "vue3-apexcharts";
     import useApi from "@/composables/useApi.js"
+    import moment from "moment";
 
 
     const { sendRequest } = useApi();
@@ -202,13 +277,40 @@
         }
     }
 
-    onMounted(async () => {
+    const getDashboardData =async () => {
         const data = await sendRequest('/api/dashboard-report')
         dashboardData.value = data;
         series[0].data = data?.orderChart
-
         chartOption.xaxis.categories = data?.orderChart.map(item => item?.x);
+    }
+
+
+    const setTarget = async (event) => {
+        sendRequest({
+            url: "/api/admin/save-setting",
+            method: "POST",
+            data: {sealsTarget:event?.target?.innerText}
+        })
+        await getDashboardData();
+        await getSettings();
+        await Toast.fire({
+            icon: 'success',
+            title: "Set This Month Sales Target."
+        });
+
+    }
+
+    const target = ref(0.00)
+    const getSettings = async () => {
+        const data = await sendRequest("/api/admin/get-setting");
+        target.value = data?.bSettings?.sealsTarget
+    }
+
+    onMounted(async () => {
+        await getDashboardData();
+        await getSettings();
     })
+
 </script>
 
 <style scoped>

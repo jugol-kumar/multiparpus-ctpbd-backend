@@ -8,6 +8,7 @@ use App\Models\BusinessSetting;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\Gallery;
+use App\Models\Page;
 use App\Models\Product;
 use App\Models\SubCategory;
 use Dotenv\Dotenv;
@@ -23,17 +24,25 @@ class BusinessSettingController extends Controller
     {
         $settings = [
             'bSettings' =>[
-                'navCats'=> json_decode(get_setting('navCats')),
-                'homeCats'=> json_decode(get_setting('homeCats')),
+                'navCats' => json_decode(get_setting('navCats')),
+                'homeCats' => json_decode(get_setting('homeCats')),
+                'headerPages' => json_decode(get_setting('headerPages')),
+                'footPages' => json_decode(get_setting('footerPages')),
+                'topBarText' => get_setting('topBarText'),
+                'sealsTarget' => get_setting('sealsTarget'),
+                'posPaymentMethods' => get_setting('posPaymentMethods'),
             ]
         ];
+
+        if(!empty(\request()->input('settings'))){
+            return response()->json(get_setting(\request()->input('settings')));
+        }
 
         return response()->json($settings);
     }
 
     public function updateSetting()
     {
-
         foreach (Request::all() as $type => $value){
             $business_settings = BusinessSetting::where('type', $type)->first();
             if($business_settings != null) {
@@ -153,6 +162,16 @@ class BusinessSettingController extends Controller
         return back();
     }
 
+    public function getFooterSettings()
+    {
+        $items = json_decode(get_setting('footerPages'));
+        $sections = array_map(function ($item){
+            $item->pages = Page::query()->whereIn('id', $item->pages)->select(['id', 'title', 'slug'])->get();
+            return $item;
+        }, $items);
+
+        return response()->json($sections, 200);
+    }
 
 
 }

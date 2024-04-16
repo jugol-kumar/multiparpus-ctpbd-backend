@@ -93,12 +93,9 @@
 
 <script>
     $(document).ready(function (){
-        console.log($("body").find('.form-control-file'))
         $(".modal").find('.form-control-file')?.addClass('form-control');
         $('input[name="files"]')?.addClass('form-control');
-
     })
-
 </script>
 </body>
 <!--end::Body-->

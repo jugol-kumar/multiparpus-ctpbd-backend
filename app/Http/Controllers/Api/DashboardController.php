@@ -51,8 +51,10 @@ class DashboardController extends Controller
 
         $dashboardData = [
             'totalSeals' => Order::where('order_status', 'delivered')->sum('grand_total'),
-            'totalOrder' => Order::count(),
-            'thisMonthOrder' => Order::whereMonth('created_at', Carbon::now()->month)->count(),
+            'totalOrder' => Order::where('order_status', 'delivered')->count(),
+            'thisMonthOrder' => Order::whereMonth('created_at', Carbon::now()->month)->where('order_status', 'delivered')->count(),
+            'thisMonthSeals' => Order::whereMonth('created_at', Carbon::now()->month)->where('order_status', 'delivered')->sum('grand_total'),
+
 
             'totalCustomer' => User::where('role', 'customer')->count(),
             'thisMonthCustomer' => User::whereMonth('created_at', Carbon::now()->month)->where('role', 'customer')->count(),

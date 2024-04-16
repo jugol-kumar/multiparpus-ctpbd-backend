@@ -111,12 +111,9 @@
                             <div class="form-group">
                                 <label>Payment Method</label>
                                 <select class="form-control form-control-solid" v-model="order.payby">
-                                    <option disabled="true" selected value="">~~ Select Payment Method~~</option>
-                                    <option value="han_cash">Han Cash</option>
-                                    <option value="bKash">bKash</option>
-                                    <option value="rocket">Rocket</option>
-                                    <option value="credit_card">Credit Card</option>
-                                    <option value="bank_check">Bank Check</option>
+                                    <option disabled selected value="">~~ Select Payment Method~~</option>
+                                    <option v-for="item in paymentMethods?.split('|')" :value="item" v-text="item"/>
+
                                 </select>
                             </div>
 
@@ -258,6 +255,7 @@ const products = ref([]);
 const filterBox = ref(null);
 const selectCategory = ref(null);
 const productDetails = ref([]);
+const paymentMethods = ref(null)
 
 const categoryProducts = ref([]);
 const CartProducts = ref([]);
@@ -280,6 +278,16 @@ const getAllCustomers = async () => {
         customers.value = data
     }
 };
+
+
+
+const getAllMethods = async () => {
+    const data = await sendRequest("/api/admin/get-setting?settings=posPaymentMethods")
+    if (data) {
+        paymentMethods.value = data
+    }
+};
+
 
 const filteredProducts = computed(() => {
     let filtered = products.value;
@@ -372,6 +380,7 @@ onMounted(() => {
     allProducts();
     getAllCustomers();
     cart.initCart();
+    getAllMethods()
 });
 
 </script>

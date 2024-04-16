@@ -35,8 +35,8 @@ class CustomerController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:30|min:1',
-            'email' => 'required|unique:employees',
-            'phone' => 'required|unique:employees',
+            'email' => 'required|unique:customers',
+            'password' => 'required|min:6',
         ]);
 
         if ($request->photo){
@@ -64,24 +64,24 @@ class CustomerController extends Controller
 
             return response()->json(['message' =>'Customer save with image'], 200);
         }else{
-            Customer::create([
-                'name' => $request->name,
+            User::create([
+                'full_name' => $request->name,
+                'username' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'position' => $request->position,
-                $userImage = ['user.svg', 'default.png'],
-                'address' => $request->address,
-                'photo' => 'storage/customers/'.$userImage[array_rand($userImage, 1)],
+                'password' => Hash::make($request->input('password'))
             ]);
             return response()->json(['message' =>'Customer save without image'], 200);
         }
     }
-    public function show(Customer $customer)
+    public function show($id)
     {
+        $customer = User::findOrFail($id);
         return response()->json($customer);
     }
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, $id)
     {
+        $customer = User::findOrFail($id);
         $customer->update($request->all());
         return response()->json(['message' =>'Customer update without image'], 200);
     }

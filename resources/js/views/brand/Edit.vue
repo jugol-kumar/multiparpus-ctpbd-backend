@@ -60,7 +60,7 @@ export default {
         },
         updateCategory(){
             let id = this.$route.params.id;
-            axios.patch('/api/category/'+id, this.from)
+            this.$axios.patch('/api/category/'+id, this.from)
                 .then( res => {
                     this.from= '';
                     this.errors = '';
@@ -89,7 +89,7 @@ export default {
     created() {
         this.isLogined();
         let id = this.$route.params.id;
-        axios.get('/api/category/'+id)
+        this.$axios.get('/api/category/'+id)
         .then(res => {
             this.from = res.data;
         })

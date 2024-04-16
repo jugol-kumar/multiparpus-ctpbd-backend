@@ -1,67 +1,56 @@
 <template>
-    <div>
-        <!--end::Header Mobile-->
-        <div class="d-flex flex-column flex-root">
-            <!--begin::Page-->
-            <div class="d-flex flex-row flex-column-fluid page">
-                <!--begin::Aside-->
-                <Sidebar v-if="isLogined"/>
-                <!--end::Aside-->
-                <!--begin::Wrapper-->
-                <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
-                    <Header  v-if="isLogined"/>
-                    <!--begin::Content-->
-                    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-                        <!--begin::Entry-->
-                        <div class="d-flex flex-column-fluid">
-                            <!--begin::Container-->
-                            <div class="container">
-                                <!--end::Dashboard-->
-                                <router-view></router-view>
-                                <!--begin::Dashboard-->
-                            </div>
-                            <!--end::Container-->
-                        </div>
-                        <!--end::Entry-->
-                    </div>
-                    <!--end::Content-->
-                </div>
-                <!--end::Wrapper-->
-            </div>
-            <!--end::Page-->
-        </div>
-    </div>
+    <Component :is="currentLayout" v-if="$route">
+        <RouterView :key="$route.fullPath" />
+    </Component>
+
+
+<!--    <div class="whatsapp_chat">-->
+<!--        <div class="icon-sectoin">-->
+<!--            <a href="https://wa.me/+61450855949?text=Welcome+To+AMCPaedia. +How+can+I+help+you+?">-->
+<!--                <img src="@/assets/images/whatsapp.svg"/>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-import Header from "@/components/Header.vue"
-import Sidebar from "@/components/Sidebar.vue"
-import useAxios from "@/composables/useApi";
+import { useRoute, RouterView } from 'vue-router'
+import { computed, onMounted, ref } from 'vue'
+import Default from './layouts/AuthLayout.vue';
+import Guest from './layouts/Guest.vue';
+// import { useAuthStore } from './stores/useAuthStore';
 
-const isLogined = ref(false)
-onMounted(async () => {
+const layouts = new Map([
+    [ 'defaultLayout', Default ],
+    [ 'authLayout', Guest ]
+])
 
-    const { loading,  error, sendRequest,} = useAxios();
+const route = useRoute()
+let currentLayout = computed(() =>
+    layouts.get(`${route.meta.layout || 'default'}Layout`)
+)
 
-    isLogined.value = User.loggedIn();
-    const router = useRouter();
+const show = ref(true)
 
-    let userInfo = User.userInfo()
+// onMounted(async ()=>{
+//     const authStore = useAuthStore();
+//     setTimeout(async () => {
+//         show.value = false;
+//         await authStore.fetchUser();
+//     }, 5000);
+// })
 
-    const user = await sendRequest({
-        url: `/api/user`,
-        headers: {
-            "Authorization": `Bearer ${userInfo?.token}`
-        }
-    });
-
-    if(!user){
-        localStorage.removeItem('_user')
-        router.push({name:'Login'})
-    }
-})
 </script>
 
-<style scoped></style>
+<style>
+.whatsapp_chat{
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+}
+.whatsapp_chat .icon-sectoin img{
+    width: 50px;
+}
+
+</style>

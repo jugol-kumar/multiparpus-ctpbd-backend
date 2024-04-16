@@ -41,11 +41,11 @@
                         <td>{{ i+1 }}</td>
                         <td>
                             <span class="symbol-label">
-                                 <img :src="`${emp.photo}`" alt="" class="rounded-circle" style="width: 50px; height: 50px;">
+                                 <img :src="`https://ui-avatars.com/api/?background=random&color=fff&name=${emp.username}`" alt="" class="rounded-circle" style="width: 50px; height: 50px;">
                             </span>
                         </td>
                         <td>{{ emp.email }}</td>
-                        <td>{{ emp.name }}</td>
+                        <td>{{ emp.full_name }}</td>
                         <td>{{ emp.phone }}</td>
                         <td>
                             <router-link :to="{name:'EditEmployee', params:{id:emp.id} }" class="btn btn-sm btn-clean btn-icon" title="Edit details">

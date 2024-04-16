@@ -1,9 +1,8 @@
-// src/composables/useAxios.js
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL:  import.meta.env.APP_URL
+    baseURL:  import.meta.env.VITE_APP_URL
 });
 
 export default function useAxios() {

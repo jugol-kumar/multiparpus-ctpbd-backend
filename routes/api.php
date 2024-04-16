@@ -118,6 +118,7 @@ Route::post("/admin/save-setting", [BusinessSettingController::class, 'updateSet
 Route::get("/admin/get-setting", [BusinessSettingController::class, 'index']);
 
 Route::post('login', [CustomerController::class, 'loginCustomer']);
+Route::post('register', [CustomerController::class, 'store']);
 
 
 Route::get('/all-areas', [OrderAreaController::class, 'getAreas']);
@@ -136,6 +137,7 @@ Route::middleware('auth:sanctum')->group(function(){
     });
 
     Route::apiResource('address', AddressController::class);
+
     Route::post("save-order", [OrderController::class, 'store']);
     Route::get("my-orders", [OrderController::class, 'index']);
     Route::get('auth-data',  [ProductController::class, 'variationsProducts']);
@@ -145,6 +147,7 @@ Route::middleware('auth:sanctum')->group(function(){
     // admin router
     Route::get('/admin/orders', [AdminOrderController::class, 'index']);
     Route::get('/admin/product-stokes', [ProductController::class, 'stokeProducts']);
+    Route::get('/admin/product-low-stokes', [ProductController::class, 'lowStokeProducts']);
     Route::put('/admin/update-stokes/{id}', [ProductController::class, 'updateStoke']);
 
 

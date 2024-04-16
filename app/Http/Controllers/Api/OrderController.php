@@ -21,9 +21,11 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $orders = Order::query()->with(['orderdetails', 'orderdetails.product', 'orderdetails.stoke'])
+        $orders = Order::query()->with(['orderdetails', 'orderdetails.product','orderdetails.product.images', 'orderdetails.stoke'])
             ->where('user_id', $user->id)
-            ->paginate(10);
+            ->latest()
+            ->get();
+//            ->paginate(10);
 
         return response()->json([
             'message' => 'users all orders',
@@ -47,15 +49,18 @@ class OrderController extends Controller
 
             $orderDetails = [];
             foreach ($request->orders as $key => $item){
+
                 $orderDetails[] =[
-                  'order_id' => $order->id,
+                  'order_id' => $order?->id,
                   'product_id' => $item['data']['id'],
-                  'product_stock_id' => $item["selectSku"]["id"],
-                  'quantity' => $item["selectSku"]["selectQty"]
+                  'product_stock_id' => isset($item["selectSku"]["id"]) ?  $item["selectSku"]["id"] : NULL,
+                  'quantity' => isset($item["selectSku"]["selectQty"]) ? $item["selectSku"]["selectQty"] : 1,
                 ];
-                $stock = ProductStock::where('id', $item["selectSku"]["id"])->first();
-                $stock->qty = $stock->qty - $item["selectSku"]["selectQty"];
-                $stock->save();
+                if(isset($item["selectSku"]["id"])){
+                    $stock = ProductStock::where('id', $item["selectSku"]["id"])->first();
+                    $stock->qty = $stock->qty - $item["selectSku"]["selectQty"];
+                    $stock->save();
+                }
             }
             $order->orderdetails()->createMany($orderDetails);
 

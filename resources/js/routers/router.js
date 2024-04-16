@@ -32,6 +32,7 @@ const routes =[
     {
         path:'/login',
         name:'Login',
+        meta:{layout:"auth"},
         component: ()=> import("@/views/Auth/Auth.vue")
     },
     {
@@ -42,6 +43,7 @@ const routes =[
     {
         path:'/logout',
         name:'Logout',
+        meta:{layout:"auth"},
         component: ()=> import("@/views/Auth/Logout.vue")
     },
 
@@ -201,6 +203,11 @@ const routes =[
         name: 'StokeManage',
         component: ()=> import("@/views/product/Stoke.vue")
     },
+    {
+        path:'/manage-low-stoke',
+        name: 'LowStoke',
+        component: ()=> import("@/views/product/LowStoke.vue")
+    },
 
     //pos route
     {
@@ -232,14 +239,21 @@ const routes =[
         name:'ShowOrderDetails',
         component: import('@/views/order/ShowOrder.vue')
     },
+    //
+    // // order areas
+    // {
+    //     path:'/areas',
+    //     name:'OrderAreas',
+    //     component: import('@/views/OrderArea/Index.vue')
+    // },
 
-    // order areas
+
+    // areas module
     {
-        path:'/order-areas',
-        name:'OrderAreas',
-        component: import('@/views/OrderArea/Index.vue')
+        path:'/areas',
+        name:'Areas',
+        component: ()=>import("@/views/Areas/Index.vue")
     },
-
 
 
 
@@ -293,6 +307,9 @@ const routes =[
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(){
+        document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
+    }
 });
 
 

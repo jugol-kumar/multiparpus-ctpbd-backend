@@ -5,7 +5,7 @@
         <div v-else class="card card-custom">
             <div class="card-header flex-wrap py-5">
                 <div class="card-title">
-                    <h3 class="card-label">Stoke Management
+                    <h3 class="card-label">Low Stoke Management
                     </h3>
                 </div>
             </div>
@@ -158,7 +158,7 @@ const updateStoke = async () =>{
 const getAllStokes =async (path) =>{
     const data = await sendRequest({
         method: 'get',
-        url: path ?? `/api/admin/product-stokes`,
+        url: path ?? `/api/admin/product-low-stokes`,
         headers: {
             "Authorization": `Bearer ${user?.token}`
         }

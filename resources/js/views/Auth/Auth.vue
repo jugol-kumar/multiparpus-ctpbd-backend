@@ -33,6 +33,34 @@
                     </form>
                 </div>
             </div>
+
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td colspan="2">Example</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td ref="email">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span>admin@admin.com</span>
+                            <button class="btn btn-sm btn-primary" @click="copyText('admin@admin.com', this)">copy</button>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Password</th>
+                    <td ref="password">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span>12345678</span>
+                            <button class="btn btn-sm btn-primary" @click="copyText(12345678, this)">copy</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -108,6 +136,19 @@ export default {
                 .catch(e => {
                     console.log(e);
                 });
+        },
+
+        copyText(text, event) {
+            var textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            Toast.fire({
+                icon: 'success',
+                title: 'Copied...!'
+            })
         }
     },
     created(){
@@ -127,6 +168,7 @@ export default {
 }
 .login-container{
     width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
