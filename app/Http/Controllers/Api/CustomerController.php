@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ForgatePasswordMail;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Facades\Image;
 
@@ -33,11 +37,19 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
+
+
         $this->validate($request, [
             'name' => 'required|max:30|min:1',
-            'email' => 'required|unique:customers',
-            'password' => 'required|min:6',
+            'email' => 'required|unique:users',
+//            'phone' => 'required|unique:employees',
         ]);
+
+        if(!$request->has('fromAdmin')){
+            $request->validate([
+                'password' => 'required|min:6'
+            ]);
+        }
 
         if ($request->photo){
             $photo = $request->photo;
@@ -58,18 +70,23 @@ class CustomerController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'photo' => $uploadPath,
-                'password' => Hash::make(12345678)
+                'password' => Hash::make($request->input('password'))
             ]);
 
 
             return response()->json(['message' =>'Customer save with image'], 200);
         }else{
+
             User::create([
                 'full_name' => $request->name,
-                'username' => $request->name,
+                'username' => Str::slug($request->name, '_'),
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'password' => Hash::make($request->input('password'))
+                'position' => $request->position,
+                $userImage = ['user.svg', 'default.png'],
+                'address' => $request->address,
+                'password' => Hash::make($request->input('password')),
+                'photo' => 'storage/customers/'.$userImage[array_rand($userImage, 1)],
             ]);
             return response()->json(['message' =>'Customer save without image'], 200);
         }
@@ -83,11 +100,12 @@ class CustomerController extends Controller
     {
         $customer = User::findOrFail($id);
         $customer->update($request->all());
-        return response()->json(['message' =>'Customer update without image'], 200);
+        return response()->json(['message' =>'Customer update...'], 200);
     }
-    public function destroy(Customer $customer)
+    public function destroy($id)
     {
-        $customer->delete();
+        $user = User::findOrFail($id);
+        $user->delete();
         return response()->json(['message' =>'Customer delete without image'], 200);
     }
 
@@ -135,6 +153,106 @@ class CustomerController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return response()->noContent();
+    }
+
+
+    public function updateProfile(Request $request)
+    {
+        $user = User::findOrFail($request->id);
+        $user->full_name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->save();
+
+        return response()->json('Profile Updated...');
+    }
+
+
+    public function updatePassword(Request $request)
+    {
+        $user = User::query()->findOrFail($request->id);
+        $hashedPassword = $user->password;
+
+        $request->validate([
+            'current_pass' => 'required',
+            'new_pass'=> 'required|min:6',
+            'confirm_pass' => 'required|min:6|same:new_pass',
+        ]);
+
+        if (Hash::check($request->input('current_pass'), $hashedPassword)) {
+            if (!Hash::check($request->input("new_pass"), $hashedPassword)) {
+                $user->update([
+                    'password' => Hash::make($request->input("new_pass"))
+                ]);
+                Auth::logout();
+
+                return response()->json("New Password Updated..");
+
+            } else {
+                return response()->json([
+                    'errors' => 'Current Password Not Match',
+                    'error' => 'New Password Can Not Be Same As Same Password'
+                ]);
+            }
+        } else {
+            if ($user->password == null){
+                $user->password = Hash::make(Request::input('password'));
+                $user->save();
+                return back();
+            }
+
+            return response()->json([
+                'errors' => 'Current Password Not Match',
+                'error' => 'New Password Can Not Be Same As Same Password'
+            ]);
+        }
+        return response()->json("New Password Updated..");
+    }
+
+    public function sendForgotPasswordReqs(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'email' => ['required', 'email', Rule::exists('users', 'email')]
+        ]);
+
+
+        $user = User::query()->where('email', \Illuminate\Support\Facades\Request::input('email'))->first();
+
+        if($user != null){
+            if ($user && $user != null){
+                Mail::to($user)->send(new ForgatePasswordMail($user));
+                return \response()->json('Resend Password Mail Send Successfully Done !', 200);
+            }else{
+                return \response()->json('Your Email Address Not Valid...!', 404);
+            }
+        }else{
+            return \response()->json('Your Email Address Not Valid...!', 404);
+        }
+
+    }
+
+    public function checkForgotPassword(){
+        $email = base64_decode(\request()->input("_token"));
+
+        $user = User::where('email', $email)->first();
+
+        if ($user && $user != null){
+            return redirect(env('FRONTEND_URL')."/new-given-password?email=$email");
+        }else{
+            return \response()->json(['message' => 'Email Address is not valid...'], 404);
+        }
+    }
+
+    public function saveNewChangedPassword(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'min:6|required_with:confirm_password|same:confirm_password',
+        ]);
+        $user = User::where('email', $request->input('email'))->first();
+        $user->password = Hash::make($request->input('password'));
+        $user->update();
+
+        return response()->json('Password Change Successfully Done...', 200);
     }
 
 }

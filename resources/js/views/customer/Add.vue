@@ -8,20 +8,20 @@
             <form class="form" @submit.prevent="saveCustomer()" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-solid" v-model="from.name" placeholder="Enter customer name..."/>
-                        <small class="text-danger" v-if="errors.name">{{ errors.name[0]}}</small>
+                        <small class="text-danger" v-if="errors.name">{{ errors?.name[0]}}</small>
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>Email  <span class="text-danger">*</span></label>
                         <input type="email" class="form-control form-control-solid" v-model="from.email" placeholder="Enter customer name..."/>
-                        <small class="text-danger" v-if="errors.email">{{ errors.email[0]}}</small>
+                        <small class="text-danger" v-if="errors?.email">{{ errors?.email[0]}}</small>
                     </div>
 
                     <div class="form-group">
                         <label>Phone</label>
                         <input type="text" class="form-control form-control-solid" v-model="from.phone" placeholder="Enter customer name..."/>
-                        <small class="text-danger" v-if="errors.name">{{ errors.phone[0]}}</small>
+                        <small class="text-danger" v-if="errors?.phone">{{ errors?.phone[0]}}</small>
                     </div>
 
                     <div class="form-group">
@@ -36,8 +36,11 @@
                     <img v-show="from.photo" class="preview-image" :src="from.photo" alt="">
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                    <RequestLoading :isShow="loading"/>
+                    <div v-if="!loading">
+                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                    </div>
                 </div>
             </form>
             <!--end::Form-->
@@ -48,8 +51,11 @@
 </template>
 
 <script>
+import RequestLoading from "@/components/RequestLoading.vue";
+
 export default {
     name: "Add",
+    components: {RequestLoading},
     data(){
         return{
             from: {
@@ -60,6 +66,7 @@ export default {
                 photo:null,
             },
             errors:{},
+            loading:false
         }
     },
     methods: {
@@ -72,7 +79,8 @@ export default {
             reader.readAsDataURL(File);
         },
         saveCustomer(){
-            this.$axios.post('api/customer', this.from)
+            this.loading = true;
+            this.$axios.post('api/customer?fromAdmin', this.from)
             .then( res => {
                 this.from= '';
                 this.errors = '';
@@ -82,12 +90,13 @@ export default {
                 })
             })
             .catch(err => {
-                this.errors = err.response.data.errors;
+                console.log(err?.response?.data?.errors)
+                this.errors = err.response.data?.errors;
                 Toast.fire({
                     icon: 'warning',
                     title: err.response.statusText
                 })
-            })
+            }).finally(()=>this.loading = false)
         }
     },
 

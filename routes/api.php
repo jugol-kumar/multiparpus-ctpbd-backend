@@ -54,11 +54,14 @@ Route::apiResource('employee',  EmployeeController::class);
 Route::apiResource('supplier',  SupplierController::class);
 
 Route::apiResource('category',  CategoryController::class);
+Route::post('/category/update/{id}', [CategoryController::class, 'updateCategory']);
+
 Route::get("/navbar-categories", [CategoryController::class, 'navCategories']);
 
 Route::get("/home-categories", [CategoryController::class, 'homeCategories']);
 
 Route::apiResource('brand',     BrandController::class);
+Route::post('/brand/update/{id}', [BrandController::class, 'updateBrand']);
 
 Route::apiResource('product',   ProductController::class);
 Route::get('product-filter', [ProductController::class, 'filterProduct']);
