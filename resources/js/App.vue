@@ -28,7 +28,7 @@ const layouts = new Map([
 
 const route = useRoute()
 let currentLayout = computed(() =>
-    layouts.get(`${route.meta.layout || 'default'}Layout`)
+    layouts.get(`${route.meta.layout || 'auth'}Layout`)
 )
 
 const show = ref(true)

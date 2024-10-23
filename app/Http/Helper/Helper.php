@@ -95,6 +95,29 @@ if(!function_exists('getRandomStringRand')){
 
 
 
+function sms_send($numbers, $messages): bool|string
+{
+    $url = "https://bulksmsbd.net/api/smsapi";
+    $api_key = env("API_KYE");
+    $senderid = env("SENDER_ID");
+
+    $data = [
+        "api_key" => $api_key,
+        "senderid" => $senderid,
+        "number" => $numbers,
+        "message" => $messages
+    ];
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    return $response;
+}
 
 
 

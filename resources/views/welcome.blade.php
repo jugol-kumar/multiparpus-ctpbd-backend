@@ -11,11 +11,11 @@
 
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/assets/css/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/assets/css/login-4.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/assets/css/light.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/assets/css/dark.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/plugins.bundle.css?v=1') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/style.bundle.css?v=1') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/login-4.css?v=1') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/light.css?v=1') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/dark.css?v=1') }}" rel="stylesheet" type="text/css" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>

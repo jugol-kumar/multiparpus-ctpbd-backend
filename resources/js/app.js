@@ -9,8 +9,6 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import moment from 'moment'
 
-
-
 import 'summernote/dist/summernote-bs4.css'
 import 'summernote/dist/summernote-bs4.min.js'
 

@@ -68,7 +68,7 @@ class CustomerController extends Controller
                 'full_name' => $request->name,
                 'username' => $request->name,
                 'email' => $request->email,
-                'phone' => $request->phone,
+                'phone' => "+8801".$request->phone,
                 'photo' => $uploadPath,
                 'password' => Hash::make($request->input('password'))
             ]);
@@ -98,8 +98,10 @@ class CustomerController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $data = $request->all();
         $customer = User::findOrFail($id);
-        $customer->update($request->all());
+        $data['phone'] = "+8801".$request->phone;
+        $customer->update($data);
         return response()->json(['message' =>'Customer update...'], 200);
     }
     public function destroy($id)
@@ -254,5 +256,7 @@ class CustomerController extends Controller
 
         return response()->json('Password Change Successfully Done...', 200);
     }
+
+
 
 }

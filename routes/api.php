@@ -8,11 +8,13 @@ use App\Http\Controllers\Api\BusinessSettingController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\EmailToolsController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\MonthController;
 use App\Http\Controllers\Api\OrderAreaController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\QuestionController;
@@ -133,6 +135,19 @@ Route::apiResource('/review', ReviewController::class);
 //question system routes
 Route::apiResource('/question', QuestionController::class);
 
+// manage email camping
+Route::get('/get-customers-emails', [EmailToolsController::class, 'index']);
+Route::post('/send-emails', [EmailToolsController::class, 'sendEmails']);
+Route::get('/get-all-campaign', [EmailToolsController::class, 'getCampaign']);
+Route::delete('/delete-campaign/{id}', [EmailToolsController::class, 'deleteCampaign']);
+
+
+// page management
+Route::resource('pages', PageController::class);
+Route::post('/pages/update/{id}', [PageController::class, 'updatePage'])->name('pages.updatePage');
+
+// get settings for frontend
+Route::get('/get-footer-settings', [BusinessSettingController::class, 'getFooterSettings']);
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('user', function (Request $request){
@@ -144,7 +159,6 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post("save-order", [OrderController::class, 'store']);
     Route::get("my-orders", [OrderController::class, 'index']);
     Route::get('auth-data',  [ProductController::class, 'variationsProducts']);
-
 
 
     // admin router
@@ -160,14 +174,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
 
     Route::get('logout', [CustomerController::class, 'logoutCustomer']);
-});
-
-
-Route::post('/upload-single',function(Request $request){
-    return $request;
-    $files = $request->image;
-    $files->store('single');
-    return response(['status'=>'success'],200);
 });
 
 

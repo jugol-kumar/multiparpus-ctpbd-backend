@@ -20,7 +20,12 @@ class CategoryController extends Controller
                 ->whereNull('parent_id')
                 ->select('id', 'name');
             $resCats = $this->makeRecursive($resCats->get());
-        }else{
+        }elseif(\request()->input('onlyData') == 'true'){
+            $resCats = Category::query()
+                ->select(['id', 'name'])
+                ->get();
+        }
+        else{
             $resCats = Category::query()
                 ->with(['parent'])
                 ->latest()
